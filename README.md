@@ -30,7 +30,7 @@ End: 15/05/2023
 TODO: list team members
 
 ## 🏛️ Architecture
-
+![architecture](https://github.com/SzymkowskiDev/workforce-data-platform/blob/master/media/diagram.PNG?raw=true)
 
 ## 📖 Query framework
 TODO: write examples of use
