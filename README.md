@@ -30,10 +30,10 @@ End: 15/05/2023
 TODO: list team members
 
 ## 🏛️ Architecture
+![architecture](https://github.com/SzymkowskiDev/workforce-data-platform/blob/master/media/diagram.PNG?raw=true)
 
-
-## 📖 Query framework
-TODO: write examples of use
+## 📖 Documentation
+TODO: Each component to be documented
 **Example 1. function 1**
 
 Description of the example.
