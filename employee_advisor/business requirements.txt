@@ -1,0 +1,9 @@
+What information would an employee find useful to make decisions about his or her career
+- recommendation what are possible career paths based on your current experience
+- how your skills experience looks like in comparison to population
+- what is in demand, technologies and fields
+- what will be in demand in few years (prediction, TIOBE Index?)
+- what are relevant technologies for your preferred filepath
+- know what are requirements
+- sth about employers relevant for your
+
