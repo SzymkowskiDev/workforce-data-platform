@@ -22,13 +22,13 @@ Start: 15/03/2023
 - [ ] Control Panel
 - [ ] Logger
 
-**Version 1.5.0**
+**Version 1.6.0**
 - [ ] Performance Estimator
 - [ ] Team Stuffer
 - [ ] Employee Advisor
 - [ ] Database Panel
 - [ ] Skills Survey
-
+- [ ] [placeholder for feature suggested by data science research]
 
 End: 15/05/2023
 
