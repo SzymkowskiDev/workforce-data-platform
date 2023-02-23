@@ -25,7 +25,7 @@ TODO: Description.
 - [ ] Logger
 - [ ] `placeholder for feature suggested by data science research`
 - [ ] Team Stuffer
-- [ ] 
+
 **Version 1.6.0**
 - [ ] Performance Estimator
 - [ ] Employee Advisor
