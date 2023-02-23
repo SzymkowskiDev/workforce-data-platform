@@ -28,7 +28,7 @@ Start: 15/03/2023
 - [ ] Employee Advisor
 - [ ] Database Panel
 - [ ] Skills Survey
-- [ ] [placeholder for feature suggested by data science research]
+- [ ] `placeholder for feature suggested by data science research`
 
 End: 15/05/2023
 
