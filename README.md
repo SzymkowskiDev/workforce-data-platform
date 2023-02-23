@@ -9,16 +9,26 @@ TODO: Description.
 
 Start: 15/03/2023
 
-**Version 1.0.0**
+**Version 0.5.0**
 
+- [ ] Data Science Research
 - [ ] Database
-- [ ] Data Converter
-- [ ] Schema Validator
-- [ ] Data Enhancer
 - [ ] Query Framework
-- [ ] Logger & Performance Estimator
-- [ ] Configurator Control Panel
-- [ ] Random Data Generator
+- [ ] Schema Validator
+- [ ] Data Converter
+- [ ] Data Generator
+
+**Version 1.0.0**
+- [ ] Control Panel
+- [ ] Logger
+
+**Version 1.5.0**
+- [ ] Performance Estimator
+- [ ] Team Stuffer
+- [ ] Employee Advisor
+- [ ] Database Panel
+- [ ] Skills Survey
+
 
 End: 15/05/2023
 
