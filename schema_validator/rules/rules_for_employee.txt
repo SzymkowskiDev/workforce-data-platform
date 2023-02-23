@@ -13,6 +13,7 @@ Phone Number    mandatory, string, starts with + sign
 Birthdate       check if not after Joining Date
 Country         mandatory, string, check if country exists
 City            mandatory, string
+Project         string
 
 
 
@@ -31,3 +32,4 @@ Phone Number    check if not taken
 Birthdate       check if not after Joining Date
 Country         check if country exists
 City            cannot update to blank
+Project         check if exists in the clients table
