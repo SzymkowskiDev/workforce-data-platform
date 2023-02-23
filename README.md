@@ -7,30 +7,32 @@ TODO: Description.
 
 ## 📅 Development schedule
 
-Start: 15/03/2023
+11/03/2023 - Introductory Meeting and start of Sprint 1:
 
 **Version 0.5.0**
 
-- [ ] Data Science Research
+- [ ] Data Science Research (team required)
 - [ ] Database
 - [ ] Query Framework
 - [ ] Schema Validator
 - [ ] Data Converter
 - [ ] Data Generator
 
+25/03/2023 - Sprint Review 1 and start of Sprint 2:
+
 **Version 1.0.0**
 - [ ] Control Panel
 - [ ] Logger
-
+- [ ] `placeholder for feature suggested by data science research`
+- [ ] Team Stuffer
+- [ ] 
 **Version 1.6.0**
 - [ ] Performance Estimator
-- [ ] Team Stuffer
 - [ ] Employee Advisor
-- [ ] Database Panel
 - [ ] Skills Survey
-- [ ] `placeholder for feature suggested by data science research`
+- [ ] Database Panel
 
-End: 15/05/2023
+15/05/2023 - Demo Day
 
 ## 🔗 Related Links
 * Kanban board [Workforce Data Platform project](https://github.com/users/SzymkowskiDev/projects/8/views/1)
