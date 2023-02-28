@@ -2,6 +2,8 @@
 # Workforce Data Platform
 TODO: Context and product showcase
 
+![logo](https://github.com/SzymkowskiDev/workforce-data-platform/blob/master/media/logo.PNG?raw=true)
+
 ## 🚀 How to run
 TODO: Description.
 
