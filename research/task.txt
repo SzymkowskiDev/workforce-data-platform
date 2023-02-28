@@ -1,0 +1,15 @@
+## Task
+Data Science team has been assembled to obtain data relevant to the project, perform EDA on it and suggest new functionalities.
+
+
+## Learning outcomes
+[ ]     Consuming third-party APIs
+[ ]     Web scraping
+[ ]     Document databases
+[ ]     Natural Language Processing and text analysis
+
+## Challanges
+[ ]     Obtain data on tools from stackshare (might need refinment)
+[ ]     Scrape job offers from justjoin.it and persist them in document db
+[ ]     Perform Exploratory Data Analysis of sourced data
+[ ]     Based on EDA put forward research questions and propose a new feature for WDP product

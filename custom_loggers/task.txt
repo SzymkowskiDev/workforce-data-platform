@@ -1,0 +1,17 @@
+## Task
+Create three types of loggers: 
+    1. general-purpose debugging logger
+    2. profiling logger for perofrmance measurement and code analysis
+    3. auditor that logs security-related events 
+
+## Learning outcomes
+[ ]     Customizing loggers
+[ ]     Three use cases for loggers (debugging, profiling and auditing)
+[ ]     Output logs to different sources (console, file and email)
+[ ]     Code profiling and performance measurement 
+
+## Challanges
+[ ]     Log as much useful information as possible (time, line, logger name etc.)
+[ ]     Make email notification for auditor logs e.g. on this date, person A tried accessing salary info
+[ ]     Save auditor and profiler logs to JSON file for programmatic access
+[ ]     In every try-except capture stack traces 

@@ -1,0 +1,18 @@
+## Task
+As a database engineer you are tasked with all the work related to the developemnt of relational database and its utilities.
+
+## Learning outcomes
+[ ]     Database design and DDL (SQL data definition language)
+[ ]     Entity Relationship Diagram
+[ ]     Sanitized SQL queries
+[ ]     Making connection to database
+[ ]     Lazy evaluation (generators, iterators, generator expressions)
+[ ]     Cryptography (hash functions etc.)
+
+## Challanges
+[ ]     Create database design that follows best practices and meets business needs
+[ ]     Create query functions that are sql-injection safe
+[ ]     Query functions must be robust, general (dynamic identifiers and literals) purpose and well documented
+[ ]     Database connections must be optimized
+[ ]     Create a performant interface that does lazy loading of data
+[ ]     Emplyee salaries are sensitive and should be encrypted

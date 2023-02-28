@@ -1,0 +1,13 @@
+## Task
+Preserve data integrity by performing robust data validations
+
+## Learning outcomes
+[ ]     Using JSON schema to validate data
+[ ]     Cross-table validations
+[ ]     Querying relational database
+[ ]     Parallel execution
+
+## Challanges
+[ ]     Execute simple validation rules using jsonschema
+[ ]     Execute advanced validation rules e.g. check that email is not taken
+[ ]     Make the validation engine performant by implementing parallelism
