@@ -2,7 +2,8 @@
 # Workforce Data Platform
 TODO: Context and product showcase
 
-![logo](https://github.com/SzymkowskiDev/workforce-data-platform/blob/master/media/logo.PNG?raw=true)
+## 🏛️ Architecture
+![architecture](https://github.com/SzymkowskiDev/workforce-data-platform/blob/master/media/diagram2i.PNG?raw=true)
 
 ## 🚀 How to run
 TODO: Description.
@@ -13,26 +14,22 @@ TODO: Description.
 
 **Version 0.5.0**
 
-- [ ] Data Science Research (team required)
-- [ ] Database
-- [ ] Query Framework
-- [ ] Schema Validator
-- [ ] Data Converter
-- [ ] Data Generator
+- [ ] Data Science Research
+- [ ] database
+- [ ] data_generator
+- [ ] query_framework
+- [ ] data_converter
+- [ ] schema_validator
+- [ ] custom_loggers (debugger)
 
 25/03/2023 - Sprint Review 1 and start of Sprint 2:
 
 **Version 1.0.0**
-- [ ] Control Panel
-- [ ] Logger
 - [ ] `placeholder for feature suggested by data science research`
-- [ ] Team Stuffer
-
-**Version 1.6.0**
-- [ ] Performance Estimator
-- [ ] Employee Advisor
-- [ ] Skills Survey
-- [ ] Database Panel
+- [ ] team_staffer
+- [ ] skills_survey
+- [ ] employee_advisor
+- [ ] custom_loggers (profiler & auditor)
 
 15/05/2023 - Demo Day
 
@@ -43,8 +40,6 @@ TODO: Description.
 ## 👨‍💻 Contributing
 TODO: list team members
 
-## 🏛️ Architecture
-![architecture](https://github.com/SzymkowskiDev/workforce-data-platform/blob/master/media/diagram2i.PNG?raw=true)
 
 ## 📖 Documentation
 TODO: Each component to be documented
@@ -54,6 +49,8 @@ Description of the example.
 ```python
 CODE GOES HERE
 ```
+
+![logo](https://github.com/SzymkowskiDev/workforce-data-platform/blob/master/media/logo.PNG?raw=true)
 
 ## 📄 License
 [MIT License](https://choosealicense.com/licenses/mit/) ©️ 2019-2020 [Kamil Szymkowski](https://github.com/SzymkowskiDev "Get in touch!")
