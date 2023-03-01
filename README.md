@@ -44,7 +44,7 @@ TODO: Description.
 TODO: list team members
 
 ## 🏛️ Architecture
-![architecture](https://github.com/SzymkowskiDev/workforce-data-platform/blob/master/media/diagram.PNG?raw=true)
+![architecture](https://github.com/SzymkowskiDev/workforce-data-platform/blob/master/media/diagram2.PNG?raw=true)
 
 ## 📖 Documentation
 TODO: Each component to be documented
