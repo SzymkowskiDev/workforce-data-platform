@@ -40,9 +40,21 @@ TODO: Description.
 ## 👨‍💻 Contributing
 TODO: list team members
 
-
 ## 📖 Documentation
+
+### How to use query framework?
 TODO: Each component to be documented
+
+**Example 1. function 1**
+
+Description of the example.
+```python
+CODE GOES HERE
+```
+
+### How to use data generator?
+TODO: Each component to be documented
+
 **Example 1. function 1**
 
 Description of the example.

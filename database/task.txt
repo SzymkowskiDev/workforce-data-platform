@@ -4,7 +4,7 @@ As a database engineer you are tasked with all the work related to the developem
 
 ## Learning outcomes
 [ ]     Database design and DDL (SQL data definition language)
-[ ]     Entity Relationship Diagram
+[ ]     Entity Relationship Diagram (save it as PNG in media dir)
 [ ]     Sanitized SQL queries
 [ ]     Making connection to database
 [ ]     Cryptography (hash functions etc.)
