@@ -1,5 +1,9 @@
 ## Task
 Data Science team has been assembled to obtain data relevant to the project, perform EDA on it and suggest new functionalities.
+Suggested research questions:
+- What salaries are there for different specialisations and seniority levels?
+- What is in demand?
+- What proportion of job offers represent various specialisations?
 
 
 ## Learning outcomes

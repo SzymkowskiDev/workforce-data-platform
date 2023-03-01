@@ -1,1 +1,0 @@
-# end-user interface to view contents of the database

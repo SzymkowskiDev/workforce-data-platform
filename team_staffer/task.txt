@@ -1,12 +1,22 @@
 ## Task
-Description
+Create a Graphical User Interface for the use of Project Managers when they try to assemble a new team for a client.
+Some of the things that the app has to let users do are:
+- browse the records
+- filter
+- sort
+- walk-through UI to identify the needs of a project
+- what is your budget for the project
+
 
 ## Learning outcomes
-[ ]     Outcome A
-[ ]     Outcome B
-[ ]     Outcome C
+[ ]     Developing a desktop GUI application
+[ ]     Querying the database
+[ ]     Lazy evaluation (generators, iterators, generator expressions)
+[ ]     Using json to configure the behaviour of an application
 
 ## Challanges
-[ ]     Challange A
-[ ]     Challange B
-[ ]     Challange C
+[ ]     Develop a desktop GUI app
+[ ]     The application is to display data held in relational database
+[ ]     Create a performant interface that does lazy loading of data
+[ ]     Implement filter and sorting of records
+[ ]     In control_panel/avatars there are pictures that represent different specializations, incorporate this into the UI

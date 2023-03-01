@@ -1,6 +1,7 @@
 ## Task
 Preserve data integrity by performing robust data validations
 
+
 ## Learning outcomes
 [ ]     Using JSON schema to validate data
 [ ]     Cross-table validations

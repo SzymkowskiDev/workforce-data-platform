@@ -1,12 +1,12 @@
 ## Task
-Description
+Control panel is the single place where you can control the settings of all the other components.
+
 
 ## Learning outcomes
-[ ]     Outcome A
-[ ]     Outcome B
-[ ]     Outcome C
+[ ]     Centralising configuration setting
+[ ]     Using json to control the behaviour of an application
+[ ]     ChatGPT
 
 ## Challanges
-[ ]     Challange A
-[ ]     Challange B
-[ ]     Challange C
+[ ]     Create a functionality that will update configs in all the other components from control_panel directory
+[ ]     Assemble a comprehensive mapping of specializations and skills as JSON file

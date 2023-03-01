@@ -1,12 +1,21 @@
 ## Task
-Description
+Create an interface for employeees (powered by data held in DB and data science research) that will help them with careers.
+What information would an employee find useful to make decisions about his or her career?
+- recommendation what are possible career paths based on your current experience
+- how your skills experience looks like in comparison to population
+- what is in demand, technologies and fields
+- what will be in demand in few years (prediction, TIOBE Index?)
+- what are relevant technologies for your preferred career path
+- know what are requirements
+- sth about employers relevant for your path etc.
+
 
 ## Learning outcomes
-[ ]     Outcome A
-[ ]     Outcome B
-[ ]     Outcome C
+[ ]     Dashboard development (dash)
+[ ]     Database queries
+[ ]     Row-level security
 
 ## Challanges
-[ ]     Challange A
-[ ]     Challange B
-[ ]     Challange C
+[ ]     Build a recommender system (either simple if-statements or ML model)
+[ ]     Build a dashboard
+[ ]     Row-level security (employee can only access his/her data (except ummary stats))

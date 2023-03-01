@@ -2,6 +2,7 @@
 Create a module that will simulate the population of employees on the market.
 It will be used to perform stress testing of all components of the solution.
 
+
 ## Learning outcomes
 [ ]     Using JSON file to control the behaviour of Python code
 [ ]     random module

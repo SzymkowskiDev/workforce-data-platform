@@ -1,12 +1,13 @@
 ## Task
-Description
+Create a command line application that will be used by employees to submit surveys about their skills.
+The app has to generate a csv file dropped to input_and_output/uploads directory
+
 
 ## Learning outcomes
-[ ]     Outcome A
-[ ]     Outcome B
-[ ]     Outcome C
+[ ]     Developing a command line application
+[ ]     csv module
+[ ]     Using json to configure the behaviour of an application
 
 ## Challanges
-[ ]     Challange A
-[ ]     Challange B
-[ ]     Challange C
+[ ]     Create a command line interface for surveys that will ask for specialization, skills and months of experience
+[ ]     Make the application's settings configurable from json file
