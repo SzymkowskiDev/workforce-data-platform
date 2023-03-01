@@ -1,12 +1,14 @@
 ## Task
-Description
+Create a module that will simulate the population of employees on the market.
+It will be used to perform stress testing of all components of the solution.
 
 ## Learning outcomes
-[ ]     Outcome A
-[ ]     Outcome B
-[ ]     Outcome C
+[ ]     Using JSON file to control the behaviour of Python code
+[ ]     random module
+[ ]     itertools perumutations, combinations etc.
+[ ]     Dynamic code generation
 
 ## Challanges
-[ ]     Challange A
-[ ]     Challange B
-[ ]     Challange C
+[ ]     Create function/s for generation of csv files for file drop in input_and_output/uploads directory
+[ ]     Create function/s for geneation of SQL code for populatinf the database
+[ ]     Make the population simulation depend on parameters obtained from data science research

@@ -1,12 +1,14 @@
 ## Task
-Description
+Create a module that will handle files dropped to directory input_and_output/uploads. 
+CSVs can be of a few different types: 'employee.csv', 'skills_survey.csv', ...
+If dropped file is JSON don't convert it. Save converted files to input_and_output/converted directory. 
+
 
 ## Learning outcomes
-[ ]     Outcome A
-[ ]     Outcome B
-[ ]     Outcome C
+[ ]     csv and json modules
+[ ]     serialization
+[ ]     error handling
 
 ## Challanges
-[ ]     Challange A
-[ ]     Challange B
-[ ]     Challange C
+[ ]     Convert csv file into json
+[ ]     Create an error log file in input_and_output/error_logs if dropped file is neither json nor csv
