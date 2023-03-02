@@ -4,6 +4,14 @@ Suggested research questions:
 - What salaries are there for different specialisations and seniority levels?
 - What is in demand?
 - What proportion of job offers represent various specialisations?
+Some websites that could be used to obtain job offers data:
+- Pracuj.pl
+- No Fluff Jobs
+- Just Join IT
+- Glassdoor
+- Indeed
+- Monster.pl
+- LinkedIn Jobs
 
 
 ## Learning outcomes

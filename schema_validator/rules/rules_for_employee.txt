@@ -17,7 +17,7 @@ Current Project     string
 Last Role           string
 Preferred Role      mandatory, string
 Salary              float
-
+Specialization      string, picklist
 
 ### UPDATE (An existing employee in the database)
 -------------------------------------------------------------------------
@@ -38,3 +38,4 @@ Current Project     check if exists in the clients table
 Last Role           string
 Preferred Role      mandatory, string
 Salary              float
+Specialization      string, picklist
