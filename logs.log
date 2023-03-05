@@ -1,0 +1,10 @@
+2023-03-05 19:52:29,550 - wdp.custom_loggers.general - DEBUG - This is a debug message
+2023-03-05 19:52:29,550 - wdp.custom_loggers.general - INFO - This is an info message
+2023-03-05 19:52:29,550 - wdp.custom_loggers.general - WARNING - This is a warning message
+2023-03-05 19:52:29,550 - wdp.custom_loggers.general - ERROR - This is an error message
+2023-03-05 19:52:29,550 - wdp.custom_loggers.general - CRITICAL - This is a critical message
+2023-03-05 21:36:47,615 - wdp.custom_loggers.general - DEBUG - This is a debug message
+2023-03-05 21:36:47,616 - wdp.custom_loggers.general - INFO - This is an info message
+2023-03-05 21:36:47,616 - wdp.custom_loggers.general - WARNING - This is a warning message
+2023-03-05 21:36:47,616 - wdp.custom_loggers.general - ERROR - This is an error message
+2023-03-05 21:36:47,617 - wdp.custom_loggers.general - CRITICAL - This is a critical message
