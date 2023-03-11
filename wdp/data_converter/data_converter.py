@@ -264,7 +264,7 @@ def jsonify_directory(
     error_handler=default_error_handler,
 ):
     """Convert all files in a directory into JSON strings."""
-    logger.info("Handling files from %s recursively...", path)
+    logger.info("Handling files from %s%s...", path, " recursively" if recursive else "")
     futs = {}
     for filename in filter(
         lambda filename: not filename.startswith("."), os.listdir(path)
@@ -402,5 +402,6 @@ if __name__ == "__main__":
     watcher_thread = run_watcher(
         r"../input_and_output/uploads",
         r"../input_and_output/converted",
+        mode='sync'
     )
     watcher_thread.join()
