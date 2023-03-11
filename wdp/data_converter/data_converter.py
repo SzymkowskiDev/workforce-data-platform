@@ -117,7 +117,10 @@ def _jsonify(data: Any) -> Any:
 @_jsonify.register
 def _jsonify_df(data: pd.DataFrame) -> str:
     """Convert a DataFrame to JSON."""
-    return data.to_json(indent=2)
+    return pd.io.json.dumps(
+        data.to_dict(orient='list'),
+        indent=2,
+    )
 
 
 _OnErrorCallbackT = Callable[[io.BufferedReader], Any]
