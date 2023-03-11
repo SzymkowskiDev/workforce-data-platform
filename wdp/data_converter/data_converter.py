@@ -245,14 +245,17 @@ def jsonify_file(
 _CallbackT = Callable[[dict[str, Any]], Any]
 
 
-@functools.lru_cache()
-def default_error_handler(filename, exc):
+_critical_once = functools.lru_cache(logger.critical)
+
+
+def default_error_handler(filename, ):
     """Log errors to a file. LRU cache to avoid duplicate logging."""
+    exc, _, _ = sys.exc_info()
     with open(ERROR_LOG_PATH, 'a') as log:
         handler, level = logging.StreamHandler(log), logger.getEffectiveLevel()
         logger.addHandler(handler)
         logger.setLevel(logging.CRITICAL)
-        logger.critical(f'Error processing {filename}: {exc}', exc_info=True)
+        _critical_once(f'Error processing {filename}: {exc}', exc_info=True)
         logger.setLevel(level)
         logger.removeHandler(handler)
 
@@ -291,9 +294,7 @@ def jsonify_directory(
         try:
             result = fut.result()
         except DataConversionError as exc:
-            # normally would use sys.exc_info() inside the callee,
-            # but this allows LRU cache to do the right thing
-            error_handler(filename, exc)
+            error_handler(filename)
             continue
         callback(filename, result)
         ret.append(result)
