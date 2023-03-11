@@ -80,17 +80,19 @@ except ImportError:
 
 class _NoFuture:
     """Internal helper for synchronous execution."""
-    def __init__(self, result):
-        self.__result = result
+    def __init__(self, fn, args, kwargs):
+        self.__fn = fn
+        self.__args = args
+        self.__kwargs = kwargs
 
     def result(self):
-        return self.__result
+        return self.__fn(*self.__args, **self.__kwargs)
 
 
 class _NoExecutor(concurrent.futures.Executor):
     """Internal helper for synchronous execution."""
     def submit(self, fn, *args, **kwargs):
-        return _NoFuture(fn(*args, **kwargs))
+        return _NoFuture(fn, args, kwargs)
 
 
 EXECUTOR_FACTORIES = {
@@ -99,8 +101,16 @@ EXECUTOR_FACTORIES = {
     'sync': _NoExecutor,
 }
 
-DEFAULT_SOURCE_DIRECTORY = os.getenv('IO_SOURCE_DIRECTORY', '../input_and_output/uploads')
-DEFAULT_TARGET_DIRECTORY = os.getenv('IO_TARGET_DIRECTORY', '../input_and_output/converted')
+__local_path = functools.partial(os.path.join, os.path.dirname(__file__))
+DEFAULT_SOURCE_DIRECTORY = os.getenv(
+    'IO_SOURCE_DIRECTORY', __local_path('../input_and_output/uploads')
+)
+DEFAULT_TARGET_DIRECTORY = os.getenv(
+    'IO_TARGET_DIRECTORY', __local_path('../input_and_output/converted')
+)
+ERROR_LOG_PATH = os.getenv(
+    'IO_ERROR_LOG_PATH', __local_path('../input_and_output/error.log')
+)
 _JSON_TOKENS = b'{['
 
 
@@ -175,7 +185,7 @@ def _try_read_csv(
     return pd.read_csv(io.StringIO(data), dialect=dialect)
 
 
-def _on_error(fp: io.BufferedReader):
+def _on_error(fp: io.BufferedReader, encoding: str):
     """Raise an error when data format could not be guessed."""
     raise DataConversionError('could not guess data format')
 
@@ -202,7 +212,10 @@ def jsonify_file(
         ch = None
         try:
             while not ch:
-                ch = fp.read(1).strip()
+                ch = fp.read(1)
+                if ch == b'':
+                    break
+                ch = ch.strip()
         except ValueError:
             pass
         fp.seek(0)
@@ -232,12 +245,24 @@ def jsonify_file(
 _CallbackT = Callable[[dict[str, Any]], Any]
 
 
+@functools.lru_cache()
+def default_error_handler(filename, exc):
+    with open(ERROR_LOG_PATH, 'a') as log:
+        handler, level = logging.StreamHandler(log), logger.getEffectiveLevel()
+        logger.addHandler(handler)
+        logger.setLevel(logging.CRITICAL)
+        logger.critical(f'Error processing {filename}: {exc}', exc_info=True)
+        logger.setLevel(level)
+        logger.removeHandler(handler)
+
+
 def jsonify_directory(
         path: str,
         callback: _CallbackT,
         executor_factory: Callable[[], concurrent.futures.Executor],
         encoding: str | None = None,
         recursive: bool = True,
+        error_handler=default_error_handler,
 ):
     """Convert all files in a directory into JSON strings."""
     logger.info(f'Handling files from {path} recursively...')
@@ -262,7 +287,13 @@ def jsonify_directory(
                 continue
     ret = []
     for filename, fut in futs.items():
-        result = fut.result()
+        try:
+            result = fut.result()
+        except DataConversionError as exc:
+            # normally would use sys.exc_info() inside the callee,
+            # but this allows LRU cache to do the right thing
+            error_handler(filename, exc)
+            continue
         callback(filename, result)
         ret.append(result)
     return ret
