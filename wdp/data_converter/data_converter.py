@@ -221,7 +221,7 @@ def jsonify_file(
         msg = f'{path} ({e})'
         raise DataConversionError(msg) from e
     finally:
-        logger.critical(f'Closing file {path}')
+        logger.info(f'Closing file {path}')
         fp.close()
     return _jsonify(data)
 
