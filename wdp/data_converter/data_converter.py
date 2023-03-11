@@ -247,6 +247,7 @@ _CallbackT = Callable[[dict[str, Any]], Any]
 
 @functools.lru_cache()
 def default_error_handler(filename, exc):
+    """Log errors to a file. LRU cache to avoid duplicate logging."""
     with open(ERROR_LOG_PATH, 'a') as log:
         handler, level = logging.StreamHandler(log), logger.getEffectiveLevel()
         logger.addHandler(handler)
