@@ -51,9 +51,9 @@ import os
 import sys
 import threading
 import time
-import pandas as pd
-
 from typing import Any, Callable, Literal, SupportsFloat
+
+import pandas as pd
 
 
 __all__ = (
@@ -95,7 +95,7 @@ class _NoFuture:
 class _NoExecutor(concurrent.futures.Executor):
     """Internal helper for synchronous execution."""
 
-    def submit(self, fn, *args, **kwargs):
+    def submit(self, fn, /, *args, **kwargs):
         return _NoFuture(fn, args, kwargs)
 
 
@@ -195,13 +195,13 @@ def jsonify_file(
         encoding = locale.getpreferredencoding()
     data = None
     if isinstance(path, str):
-        logger.info(f"Converting file {path} to JSON")
+        logger.info("Converting file %s to JSON", path)
         try:
-            fp = open(path, "rb")
+            fp = open(path, "rb")  # pylint: disable=R1732
         except FileNotFoundError as exc:
             raise DataConversionError(f"file not found: {path}") from exc
     else:
-        logger.info(f"Converting file stream to JSON")
+        logger.info("Converting file stream to JSON")
         fp = path
     try:
         ch = None
@@ -215,7 +215,7 @@ def jsonify_file(
             pass
         fp.seek(0)
         if ch and ch in _JSON_TOKENS:
-            logger.info(f"File {path} is likely a JSON")
+            logger.info("File %s is likely a JSON", path)
             data = _try_read_json(
                 fp,
                 encoding=encoding,
@@ -224,15 +224,15 @@ def jsonify_file(
                 ),
             )
         else:
-            logger.info(f"File {path} is likely a CSV")
+            logger.info("File %s is likely a CSV", path)
             data = _try_read_csv(fp, encoding=encoding, on_error=on_error)
-        logger.info(f"File {path} has been converted to JSON")
-    except Exception as e:
-        logger.critical(f"File {path} could not be converted to JSON")
-        msg = f"{path} ({e})"
-        raise DataConversionError(msg) from e
+        logger.info("File %s has been converted to JSON", path)
+    except Exception as exc:
+        logger.critical("File %s could not be converted to JSON", path)
+        msg = f"{path} ({exc})"
+        raise DataConversionError(msg) from exc
     finally:
-        logger.info(f"Closing file {path}")
+        logger.info("Closing file %s", path)
         fp.close()
     return _jsonify(data)
 
@@ -246,7 +246,7 @@ _critical_once = functools.lru_cache(logger.critical)
 def default_error_handler(filename):
     """Log errors to a file. LRU cache to avoid duplicate logging."""
     exc, _, _ = sys.exc_info()
-    with open(ERROR_LOG_PATH, "a") as log:
+    with open(ERROR_LOG_PATH, "a", encoding=locale.getpreferredencoding()) as log:
         handler, level = logging.StreamHandler(log), logger.getEffectiveLevel()
         logger.addHandler(handler)
         logger.setLevel(logging.CRITICAL)
@@ -264,7 +264,7 @@ def jsonify_directory(
     error_handler=default_error_handler,
 ):
     """Convert all files in a directory into JSON strings."""
-    logger.info(f"Handling files from {path} recursively...")
+    logger.info("Handling files from %s recursively...", path)
     futs = {}
     for filename in filter(
         lambda filename: not filename.startswith("."), os.listdir(path)
@@ -287,14 +287,15 @@ def jsonify_directory(
                 continue
             else:
                 logger.info(
-                    f"Recursive processing disabled, skipping directory {item_path}"
+                    "Recursive processing disabled, skipping directory %s",
+                    path
                 )
                 continue
     ret = []
     for filename, fut in futs.items():
         try:
             result = fut.result()
-        except DataConversionError as exc:
+        except DataConversionError:
             error_handler(filename)
             continue
         callback(filename, result)
@@ -310,7 +311,7 @@ class DirectoryWatcher(threading.Thread):
         self,
         item_callback: _CallbackT,
         source_directory: str,
-        *,
+        /, *,
         encoding: str = os.getenv("IO_ENCODING"),
         callback: Callable[[list[Any]], Any] | None = None,
         jsonifier=jsonify_directory,
@@ -328,7 +329,7 @@ class DirectoryWatcher(threading.Thread):
         self.recursive = recursive
         self.executor_factory = executor_factory
 
-    def __new__(cls, item_callback, source_directory, **kwargs):
+    def __new__(cls, _, source_directory, /, **_kwargs):
         """Use singleton pattern to avoid multiple watchers for the same directory."""
         normalized_path = os.path.normpath(source_directory)
         if cls._registry.get(normalized_path):
@@ -345,7 +346,7 @@ class DirectoryWatcher(threading.Thread):
     def run(self):
         """Watch the directory for changes and convert files to JSON."""
         directory = self.watch_directory
-        logger.info(f"Watching directory {directory}")
+        logger.info("Watching directory %s", directory)
         while True:
             with self._mutex:
                 data = self.jsonify_directory(
@@ -355,7 +356,8 @@ class DirectoryWatcher(threading.Thread):
                     recursive=self.recursive,
                     executor_factory=self.executor_factory,
                 )
-            self.callback and self.callback(data)
+            if self.callback:
+                self.callback(data)
             time.sleep(self.interval)
 
 
@@ -370,8 +372,8 @@ def save_converted_json_file(
     root_filename, extension = os.path.splitext(new_filename)
     os.makedirs(os.path.dirname(root_filename), exist_ok=True)
     target_filename = ".".join((root_filename, extension.lstrip("."), "json"))
-    logger.info(f"Saving converted file {filename} to {target_filename}")
-    with open(target_filename, "w") as fp:
+    logger.info("Saving converted file %s to %s", filename, target_filename)
+    with open(target_filename, "w", encoding=locale.getpreferredencoding()) as fp:
         fp.write(data)
 
 
@@ -385,12 +387,11 @@ def run_watcher(
     """Convenience function to run a directory watcher in a thread."""
     if mode and not kwds.get("executor_factory"):
         kwds["executor_factory"] = EXECUTOR_FACTORIES[mode]
-    kwds["source_directory"] = source_directory
-    kwds.setdefault(
-        "item_callback",
+    thread = watcher_cls(
         functools.partial(save_converted_json_file, target_directory, source_directory),
+        source_directory,
+        **kwds
     )
-    thread = watcher_cls(**kwds)
     thread.start()
     return thread
 
@@ -398,8 +399,8 @@ def run_watcher(
 if __name__ == "__main__":
     logger.addHandler(logging.StreamHandler(sys.stderr))
     logger.setLevel(logging.INFO)
-    thread = run_watcher(
+    watcher_thread = run_watcher(
         r"../input_and_output/uploads",
         r"../input_and_output/converted",
     )
-    thread.join()
+    watcher_thread.join()
