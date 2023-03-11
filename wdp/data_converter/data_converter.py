@@ -344,7 +344,7 @@ def run_watcher(
         watcher_cls: type[DirectoryWatcher] = DirectoryWatcher,
         **kwds,
 ) -> DirectoryWatcher:
-    """Run a directory watcher in a thread."""
+    """Convenience function to run a directory watcher in a thread."""
     if mode and not kwds.get('executor_factory'):
         kwds['executor_factory'] = EXECUTOR_FACTORIES[mode]
     kwds['source_directory'] = source_directory
