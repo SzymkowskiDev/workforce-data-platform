@@ -155,7 +155,6 @@ def _try_read_csv(
         on_error: _OnErrorCallbackT
 ):
     """Try to read CSV from a file pointer (stream)."""
-    sniffer = csv.Sniffer()
     buf = fp.read()
     try:
         data = buf.decode(encoding)
@@ -165,6 +164,7 @@ def _try_read_csv(
     if data is None:
         fp.seek(0)
         return _try_read_xlsx(fp, encoding, on_error)
+    sniffer = csv.Sniffer()
     try:
         dialect = sniffer.sniff(data)
     except csv.Error:
