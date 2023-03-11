@@ -324,7 +324,7 @@ class DirectoryWatcher(threading.Thread):
             time.sleep(self.interval)
 
 
-def save_converted_json(
+def save_converted_json_file(
     target_directory: str, source_directory: str, filename: str, data: str
 ) -> None:
     """Save the JSON string to a file."""
@@ -353,7 +353,7 @@ def run_watcher(
     kwds['source_directory'] = source_directory
     kwds.setdefault(
         'item_callback', functools.partial(
-            save_converted_json,
+            save_converted_json_file,
             target_directory,
             source_directory
         )
