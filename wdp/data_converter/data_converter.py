@@ -109,7 +109,7 @@ DEFAULT_TARGET_DIRECTORY = os.getenv(
     'IO_TARGET_DIRECTORY', __local_path('../input_and_output/converted')
 )
 ERROR_LOG_PATH = os.getenv(
-    'IO_ERROR_LOG_PATH', __local_path('../input_and_output/error.log')
+    'IO_ERROR_LOG_PATH', __local_path('../input_and_output/errors_logs/data_converter.log')
 )
 _JSON_TOKENS = b'{['
 
