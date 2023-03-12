@@ -4,8 +4,8 @@ wdp.data_converter
 (C) bswck 2023
 
 Parallel data converter from CSV/XLSX to JSON.
-Idempotent for the JSON format, but JSON files are recreated anyway to guarantee complying to
-the format.
+Idempotent for the JSON format, but JSON files are recreated anyway to guarantee its compatibility
+with the JSON format.
 
 This module provides functions to convert CSV/XLSX files to JSON in parallel.
 It also provides a class DirectoryWatcher to watch a directory for new files and convert them
