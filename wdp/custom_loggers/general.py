@@ -1,5 +1,5 @@
 """
-Module created by JimmyHodl for easy logging in Python, using just the @log decorator.
+Module created by tomekkurzydlak for easy logging in Python, using just the @log decorator.
 
 Usage:
     from wdp.custom_loggers.general import *
@@ -62,6 +62,18 @@ def log(
     level: int = logging.DEBUG,
     message: str = "No message provided"
 ):
+    """
+    :param func_to_decorate: callable = None
+    :param my_logger: Union[GenericLogger, logging.Logger] = None
+        The new logger instance to use, by default None.
+    :param level: int, optional
+    :param message: str, optional
+    :return: logging.Logger
+        A logger instance
+
+    This is a decorator function that logs messages for a given function.
+    It takes any function to decorate, a logger object, a log level, and a message as arguments
+    """
     def decorator_log(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
