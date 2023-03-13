@@ -11,8 +11,10 @@ console_profiler = True
 txt_profiler = True
 json_profiler = True
 plot_profiler = True
+
 TXT_PROFILER_PATH: str = "profiler_logs.txt"
 JSON_PROFILER_PATH: str = "profiler_logs.json"
+PLOT_PROFILER_PATH: str = "profiler_plot.png"
 sort_method = "cumulative"
 
 now = datetime.datetime.now()
@@ -63,7 +65,7 @@ def log_to_txt(profiler, memory, func):
 
 
 def plot():
-    with open("profiler_logs.json", "r") as f:
+    with open(JSON_PROFILER_PATH, "r") as f:
         data = json.load(f)
 
     memory_data = [(entry["captured_data"]["function_name"], entry["captured_data"]["memory_usage"]) for entry in data]
@@ -88,8 +90,7 @@ def plot():
     axs[2].set_ylabel("Number of Calls")
 
     plt.tight_layout()
-    # plt.show()
-    plt.savefig("profiler_plot.png")
+    plt.savefig(PLOT_PROFILER_PATH)
 
 
 def profile(func):
