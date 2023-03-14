@@ -1,3 +1,29 @@
+"""
+Profiler created by tomekkurzydlak for easy profiling in Python, using just the @profile decorator.
+
+Usage:
+    from wdp.custom_loggers.profiler import *
+
+    Then use the @profile decorator to profile your code as below:
+
+    @profile
+    def my_function(arg1, arg2):
+        pass
+
+    When using with other decorators, like @log, make sure to place the @profile decorator at the bottom
+    to prevent the function profiling with other functions:
+
+    @log
+    @profile
+    def my_function(arg1, arg2):
+        pass
+
+    Profiler saves data by default to json file and prints it to the console, but it also can dump readable
+    logs to text file and plot the most important values exporting it to png file.
+
+    You can customise behaviour and change log path, right below import statements /will later move all config
+    data of all three loggers to one common config file/
+"""
 import cProfile
 import pstats
 import json
@@ -6,30 +32,36 @@ import os
 import functools
 import datetime
 import matplotlib.pyplot as plt
+from typing import Any, Callable
 
-console_profiler = True
-txt_profiler = True
-json_profiler = True
-plot_profiler = True
+profiling_enabled = True
+
+console_profiler: bool = True
+txt_profiler: bool = False
+json_profiler: bool = True
+plot_profiler: bool = False
 
 TXT_PROFILER_PATH: str = "profiler_logs.txt"
 JSON_PROFILER_PATH: str = "profiler_logs.json"
 PLOT_PROFILER_PATH: str = "profiler_plot.png"
-sort_method = "cumulative"
+sort_method: str = "cumulative"
 
 now = datetime.datetime.now()
-now_str = now.strftime("%d/%m/%Y %H:%M:%S")
-timestamp = now.timestamp()
+now_str: str = now.strftime("%d/%m/%Y %H:%M:%S")
+timestamp: float = now.timestamp()
 
 
-def print_to_console(func, memory, stats):
+def print_to_console(func: callable, memory: float, stats: pstats.Stats) -> None:
+    """ Prints profiler statistics and memory usage to console """
     print("=" * 10, f"Stats for function: {func.__name__}", "=" * 10)
+    stats.strip_dirs()
     stats.sort_stats(sort_method).print_stats()
     print(f"Memory usage: {memory:.2f} MB\n")
     print("=" * 10, f"Generated {now_str}", "=" * 10)
 
 
-def log_to_json(func, memory, stats):
+def log_to_json(func: callable, memory: float, stats: pstats.Stats) -> None:
+    """ Logs profiler statistics and memory usage to a JSON file """
     string = {
         "captured_data": {
             "timestamp": timestamp,
@@ -54,7 +86,8 @@ def log_to_json(func, memory, stats):
             json.dump(data, file, indent=4)
 
 
-def log_to_txt(profiler, memory, func):
+def log_to_txt(profiler: cProfile.Profile, memory: float, func: callable) -> None:
+    """ Logs profiler statistics and memory usage to a text file """
     with open(TXT_PROFILER_PATH, 'a') as file:
         stats = pstats.Stats(profiler, stream=file)
         stats.stream = file
@@ -64,7 +97,8 @@ def log_to_txt(profiler, memory, func):
         file.write("=" * 30 + f" Generated {now_str} " + "=" * 30 + "\n")
 
 
-def plot():
+def plot() -> None:
+    """ Creates a plot based on the profiling results """
     with open(JSON_PROFILER_PATH, "r") as f:
         data = json.load(f)
 
@@ -93,22 +127,32 @@ def plot():
     plt.savefig(PLOT_PROFILER_PATH)
 
 
-def profile(func):
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        profiler = cProfile.Profile()
-        result = profiler.runcall(func, *args, **kwargs)
-        stats = pstats.Stats(profiler)
-        memory_usage = psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024
-        if console_profiler:
-            print_to_console(func, memory_usage, stats)
-        if txt_profiler:
-            log_to_txt(profiler, memory_usage, func)
-        if json_profiler:
-            log_to_json(func, memory_usage, stats)
-        if plot_profiler:
-            plot()
+def profile(func) -> Callable:
+    """Decorator that profiles the execution of a function
 
+    Args:
+        func: Function to be profiled
+
+    Returns:
+        Wrapped function that has been profiled
+    """
+    @functools.wraps(func)
+    def wrapper(*args: Any, **kwargs: Any) -> Any:
+        if profiling_enabled:
+            profiler = cProfile.Profile()
+            result = profiler.runcall(func, *args, **kwargs)
+            stats = pstats.Stats(profiler)
+            memory_usage = psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024
+            if console_profiler:
+                print_to_console(func, memory_usage, stats)
+            if txt_profiler:
+                log_to_txt(profiler, memory_usage, func)
+            if json_profiler:
+                log_to_json(func, memory_usage, stats)
+            if plot_profiler:
+                plot()
+        else:
+            return func(*args, **kwargs)
         return result
     return wrapper
 
