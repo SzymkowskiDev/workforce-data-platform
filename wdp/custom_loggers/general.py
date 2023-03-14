@@ -1,5 +1,5 @@
 """
-Module created by tomekkurzydlak for easy logging in Python, using just the @log decorator.
+Logger created by tomekkurzydlak for easy logging in Python, using just the @log decorator.
 
 Usage:
     from wdp.custom_loggers.general import *
