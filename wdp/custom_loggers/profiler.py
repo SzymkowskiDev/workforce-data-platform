@@ -99,8 +99,19 @@ def log_to_txt(profiler: cProfile.Profile, memory: float, func: callable) -> Non
 
 def plot() -> None:
     """ Creates a plot based on the profiling results """
+    if not os.path.exists(JSON_PROFILER_PATH):
+        print("Cannot plot. Profiler data file does not exist")
+        return
+
     with open(JSON_PROFILER_PATH, "r") as f:
-        data = json.load(f)
+        try:
+            data = json.load(f)
+            if not all(key in data[0]["captured_data"] for key in ["function_name", "memory_usage", "time_usage", "calls"]):
+                print("Cannot plot. Profiler data file does not contain valid keys")
+                return
+        except (json.JSONDecodeError, IndexError):
+            print("Cannot plot. Profiler data file is empty or corrupted")
+            return
 
     memory_data = [(entry["captured_data"]["function_name"], entry["captured_data"]["memory_usage"]) for entry in data]
     time_data = [(entry["captured_data"]["function_name"], entry["captured_data"]["time_usage"]) for entry in data]
