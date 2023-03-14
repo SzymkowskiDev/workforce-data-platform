@@ -1,3 +1,3 @@
 *.pyc
-/wdp.txt
-/test.py
+test.py
+wdp.txt
