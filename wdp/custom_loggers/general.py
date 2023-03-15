@@ -29,6 +29,14 @@ level_to_log: int = logging.DEBUG
 log_format: str = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 LOG_PATH: str = "general_logs.txt"
 
+messages = {
+    10: "This is a debug message",
+    20: "This is an info message",
+    30: "This is a warning message",
+    40: "This is an error message",
+    50: "This is a critical message"
+}
+
 parameters: dict[str, Union[int, str, list[logging.Handler]]] = {
     'level': level_to_log,
     'format': log_format,
@@ -60,8 +68,10 @@ def log(
     func_to_decorate=None, *,
     my_logger: Union[GenericLogger, logging.Logger] = None,
     level: int = logging.DEBUG,
-    message: str = "No message provided"
+    message=None
 ):
+    if not message:
+        message = messages.get(level, "No message available")
     """
     :param func_to_decorate: callable = None
     :param my_logger: Union[GenericLogger, logging.Logger] = None
