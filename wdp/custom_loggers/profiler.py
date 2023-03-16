@@ -166,5 +166,3 @@ def profile(func) -> Callable:
             return func(*args, **kwargs)
         return result
     return wrapper
-
-
