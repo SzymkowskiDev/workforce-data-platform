@@ -1,7 +1,5 @@
 {
-    "illegal_locales": [
-        "fr_QC"
-    ],
+    "illegal_locales": ["fr_QC"],
     "uid_length": 8,
 
     "employee_output_name": "employee",

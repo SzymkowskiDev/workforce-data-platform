@@ -134,7 +134,6 @@ CONFIG = Config.parse_conifg()
 SPECIALIZATIONS = _get_available_specializations()
 
 
-
 class RandomGenerators:
     """ Contains methods to generate random attributes. 
     Random ranges and other parameters can be modified in config. """
