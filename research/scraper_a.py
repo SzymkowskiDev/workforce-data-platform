@@ -5,12 +5,13 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 import time
+import os
 
 
-scrapped_offers=2 # Initializing the number of scrapped offers
+scrapped_offers=1 # Initializing the number of scrapped offers
 
 # Looping through the number of scrapped offers
-for i in range(srapped_offers):
+for i in range(scrapped_offers):
     
     url = "https://justjoin.it/api/offers"
     response = requests.get(url)
@@ -37,5 +38,5 @@ for i in range(srapped_offers):
         driver.quit()
 
     # Writing the data to a JSON file
-    with open("iustioinit_offerts.json", "w") as f:
+    with open(os.path.join('research/sourced_data', "document_db.json"), "w") as f:
         json.dump(data, f)
