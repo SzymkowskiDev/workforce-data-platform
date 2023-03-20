@@ -33,26 +33,26 @@ Usage:
     Logs are saved to "general_logs.txt" file and printed to console
     The logs include time, level, the function name, class name (if in class method), and arguments passed to the function.
 
-    You can find and change log path, log format and logging level parameters right below import statements.
+    You can configure path, log format and custom messages in config.py file
 """
 
 import logging
 import functools
 import inspect
+import os
+import wdp.custom_loggers.config as config
 from typing import Union
 
 level_to_log: int = logging.DEBUG
-log_format: str = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-# log_format_s: str = "%(asctime)s - %(name)s - %(levelname)s - %(message)s - %(module)s - %(lineno)s"
-LOG_PATH: str = "general_logs.txt"
+log_format: str = config.GENERAL_LOG_FORMAT
 
-messages = {
-    10: "This is a debug message",
-    20: "This is an info message",
-    30: "This is a warning message",
-    40: "This is an error message",
-    50: "This is a critical message"
-}
+FILE_PATH: str = config.GENERAL_LOG_PATH
+SUB_FOLDER: str = config.SUB_FOLDER
+dir_path = os.path.dirname(os.path.abspath(__file__))
+data_folder = os.path.join(dir_path, SUB_FOLDER, FILE_PATH)
+LOG_PATH = data_folder
+
+messages = config.CUSTOM_MESSAGES
 
 parameters: dict[str, Union[int, str, list[logging.Handler]]] = {
     'level': level_to_log,

@@ -21,8 +21,7 @@ Usage:
     Profiler saves data by default to json file and prints it to the console, but it also can dump readable
     logs to text file and plot the most important values exporting it to png file.
 
-    You can customise behaviour and change log path, right below import statements /will later move all config
-    data of all three loggers to one common config file/
+    You can customise behaviour and change log path in a config.py file
 """
 import cProfile
 import pstats
@@ -33,18 +32,25 @@ import functools
 import datetime
 import matplotlib.pyplot as plt
 from typing import Any, Callable
+import wdp.custom_loggers.config as config
 
-profiling_enabled = True
+profiling_enabled: bool = config.PROFILING_ENABLED
 
-console_profiler: bool = True
-txt_profiler: bool = False
-json_profiler: bool = True
-plot_profiler: bool = False
+console_profiler: bool = config.CONSOLE_PROFILER
+txt_profiler: bool = config.TXT_PROFILER
+json_profiler: bool = config.JSON_PROFILER
+plot_profiler: bool = config.PLOT_PROFILER
 
-TXT_PROFILER_PATH: str = "profiler_logs.txt"
-JSON_PROFILER_PATH: str = "profiler_logs.json"
-PLOT_PROFILER_PATH: str = "profiler_plot.png"
-sort_method: str = "cumulative"
+TXT_PROFILER_PATH: str = config.PROFILER_TXT_PROFILER_PATH
+JSON_PROFILER_PATH: str = config.PROFILER_JSON_PROFILER_PATH
+PLOT_PROFILER_PATH: str = config.PROFILER_PLOT_PROFILER_PATH
+SUB_FOLDER: str = config.SUB_FOLDER
+sort_method: str = config.SORT_METHOD
+
+dir_path = os.path.dirname(os.path.abspath(__file__))
+plot_profiler_path = os.path.join(dir_path, SUB_FOLDER, PLOT_PROFILER_PATH)
+json_profiler_path = os.path.join(dir_path, SUB_FOLDER, JSON_PROFILER_PATH)
+txt_profiler_path = os.path.join(dir_path, SUB_FOLDER, TXT_PROFILER_PATH)
 
 now = datetime.datetime.now()
 now_str: str = now.strftime("%d/%m/%Y %H:%M:%S")
@@ -73,7 +79,7 @@ def log_to_json(func: callable, memory: float, stats: pstats.Stats) -> None:
         }
     }
     try:
-        with open(JSON_PROFILER_PATH, mode="r") as file:
+        with open(json_profiler_path, mode="r") as file:
             try:
                 data = json.load(file)
             except json.decoder.JSONDecodeError:
@@ -82,13 +88,13 @@ def log_to_json(func: callable, memory: float, stats: pstats.Stats) -> None:
         data = []
     finally:
         data.append(string)
-        with open(JSON_PROFILER_PATH, mode="w") as file:
+        with open(json_profiler_path, mode="w") as file:
             json.dump(data, file, indent=4)
 
 
 def log_to_txt(profiler: cProfile.Profile, memory: float, func: callable) -> None:
     """ Logs profiler statistics and memory usage to a text file """
-    with open(TXT_PROFILER_PATH, 'a') as file:
+    with open(txt_profiler_path, 'a') as file:
         stats = pstats.Stats(profiler, stream=file)
         stats.stream = file
         file.write("\n" + "=" * 30 + f" Stats for function: {func.__name__} " + "=" * 30 + "\n")
@@ -99,11 +105,11 @@ def log_to_txt(profiler: cProfile.Profile, memory: float, func: callable) -> Non
 
 def plot() -> None:
     """ Creates a plot based on the profiling results """
-    if not os.path.exists(JSON_PROFILER_PATH):
+    if not os.path.exists(json_profiler_path):
         print("Cannot plot. Profiler data file does not exist")
         return
 
-    with open(JSON_PROFILER_PATH, "r") as f:
+    with open(json_profiler_path, "r") as f:
         try:
             data = json.load(f)
             if not all(key in data[0]["captured_data"] for key in ["function_name", "memory_usage", "time_usage", "calls"]):
@@ -135,7 +141,7 @@ def plot() -> None:
     axs[2].set_ylabel("Number of Calls")
 
     plt.tight_layout()
-    plt.savefig(PLOT_PROFILER_PATH)
+    plt.savefig(plot_profiler_path)
 
 
 def profile(func) -> Callable:
