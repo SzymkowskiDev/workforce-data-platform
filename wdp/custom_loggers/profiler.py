@@ -2,7 +2,7 @@
 Profiler created by tomekkurzydlak for easy profiling in Python, using just the @profile decorator.
 
 Usage:
-    from wdp.custom_loggers.profiler import *
+    from wdp.custom_loggers import profile
 
     Then use the @profile decorator to profile your code as below:
 
