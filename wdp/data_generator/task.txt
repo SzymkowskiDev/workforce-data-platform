@@ -4,12 +4,12 @@ It will be used to perform stress testing of all components of the solution.
 
 
 ## Learning outcomes
-[ ]     Using JSON file to control the behaviour of Python code
-[ ]     random module
+[x]     Using JSON file to control the behaviour of Python code
+[x]     random module
 [ ]     itertools perumutations, combinations etc.
 [ ]     Dynamic code generation
 
 ## Challanges
-[ ]     Create function/s for generation of csv files for file drop in input_and_output/uploads directory
+[x]     Create function/s for generation of csv files for file drop in input_and_output/uploads directory
 [ ]     Create function/s for geneation of SQL code for populatinf the database
 [ ]     Make the population simulation depend on parameters obtained from data science research
