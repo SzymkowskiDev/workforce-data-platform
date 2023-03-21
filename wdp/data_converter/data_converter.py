@@ -28,7 +28,7 @@ Example usage of programmatical conversion:
 Example usage of directory watcher:
     >>> from wdp import data_converter
 
-    >>> watcher = data_converter.run_watcher(
+    >>> watcher = data_converter.create_watcher(
     ...     callback=callback,
     ...     mode='multiprocessing',  # or 'threading' or 'sync', defaults to 'threading'
     ...     encoding='utf-8',
@@ -69,7 +69,7 @@ __all__ = (
     'jsonify_directory',
     'jsonify_file',
     'DirectoryWatcher',
-    'run_watcher',
+    'create_watcher',
 )
 
 
@@ -404,7 +404,7 @@ def save_converted_json_file(
         fp.write(data)
 
 
-def run_watcher(
+def create_watcher(
     source_directory: _PathLike,
     target_directory: _PathLike,
     mode: Literal['threading', 'multiprocessing', 'sync'] = 'threading',
@@ -419,14 +419,13 @@ def run_watcher(
         source_directory,
         **kwds,
     )
-    thread.start()
     return thread
 
 
 if __name__ == '__main__':
     logger.addHandler(logging.StreamHandler(sys.stderr))
     logger.setLevel(logging.INFO)
-    watcher_thread = run_watcher(
+    watcher_thread = create_watcher(
         app_path('input_and_output/uploads'),
         app_path('input_and_output/converted'),
         mode='sync',
