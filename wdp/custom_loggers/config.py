@@ -5,7 +5,8 @@ SUB_FOLDER = "log"
 # ----------- GENERAL LOG -----------
 
 GENERAL_LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-# GENERAL_LOG_FORMAT_S: str = "%(asctime)s - %(name)s - %(levelname)s - %(message)s - %(module)s - %(lineno)s"
+GENERAL_LOG_FORMAT_S = "%(asctime)s - %(name)s - %(levelname)s - Message: %(message)s - from module %(module)s - " \
+                       "executed at %(lineno)s"
 GENERAL_LOG_PATH = "general_logs.txt"
 
 CUSTOM_MESSAGES = {
