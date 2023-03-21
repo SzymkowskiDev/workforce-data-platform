@@ -66,6 +66,9 @@ parameters: dict[str, Union[int, str, list[logging.Handler]]] = {
 
 class GenericLogger:
     def __init__(self) -> None:
+        """
+        Initializes the GenericLogger class with string log_format_s and configures logging with the parameters
+        """
         self.logger_format: str = log_format_s
         logging.basicConfig(**parameters, format=self.logger_format)
         self.logger: logging.Logger = logging.getLogger(__name__)
@@ -94,6 +97,17 @@ def log(
     level: int = logging.DEBUG,
     message=None
 ):
+    """
+        :param func_to_decorate: callable = None
+        :param my_logger: Union[GenericLogger, logging.Logger] = None
+            The new logger instance to use, by default None.
+        :param level: int, optional
+        :param message: str, optional
+        :return: logging.Logger
+            A logger instance
+        This is a decorator function that logs messages for a given function.
+        It takes any function to decorate, a logger object, a log level, and a message as arguments
+        """
     if not message:
         message = messages.get(level, "No message available")
 
