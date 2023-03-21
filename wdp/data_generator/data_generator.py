@@ -9,11 +9,6 @@ values for these parameters should be found by the data science research team
 e.g. what proportion of job offers is for specialization X e.g. Frontend Developer
 """
 
-"""
-TODO:
-surveys
-"""
-
 from faker.config import AVAILABLE_LOCALES
 from phone_gen import PhoneNumber
 from dataclasses import dataclass
@@ -34,6 +29,7 @@ __all__ = (
     'EmployeesGroup',
     'generate_employees',
     'SurveysResultsGroup',
+    'generate_surveys_results'
 )
 
 __default_config__ = {
