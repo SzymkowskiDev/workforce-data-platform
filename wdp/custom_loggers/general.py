@@ -151,11 +151,11 @@ def log(
                 arguments = ", ".join(args_repr + kwargs_repr)
 
                 if not arguments:
-                    arguments = "No args provided"
+                    arguments = "No args"
 
                 get_default_logger(use_decorator_format=True)
                 logger.log(level, f" Message: {message}, Class: {func.__qualname__}, Function: {func.__name__}, called with args:"
-                                  f" {arguments}, from module {module_name}, called from line {line_number}, executed at {lineno}")
+                                  f" {arguments}, from module {module_name}, called from line {line_number}, executed at line {lineno}")
                 get_default_logger(use_decorator_format=False)
             except Exception:
                 pass
