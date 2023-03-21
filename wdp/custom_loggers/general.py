@@ -106,11 +106,6 @@ def log(
             line_number = inspect.getframeinfo(frame).lineno
             lineno = inspect.getsourcelines(func)[1]
 
-            # check if passed logger is an instance of GenericLogger class or logging.Logger and set the string format
-            # if my_logger is None:
-            #     use_decorator_format = True
-            # else:
-            #     use_decorator_format = not isinstance(my_logger, (logging.Logger, GenericLogger))
             logger: logging.Logger = get_default_logger(use_decorator_format=False)
             try:
                 if not my_logger:
@@ -143,8 +138,7 @@ def log(
 
                 if not arguments:
                     arguments = "No args provided"
-                # if multiple objects was passed the format parameter may be still set incorrectly,
-                # so set it to True manually. This will not create any new logger object
+
                 get_default_logger(use_decorator_format=True)
                 logger.log(level, f" Message: {message}, Class: {func.__qualname__}, Function: {func.__name__}, called with args:"
                                   f" {arguments}, from module {module_name}, called from line {line_number}, executed at {lineno}")
