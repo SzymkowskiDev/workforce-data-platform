@@ -45,6 +45,7 @@ from typing import Union
 
 level_to_log: int = logging.DEBUG
 log_format: str = config.GENERAL_LOG_FORMAT
+log_format_s: str = config.GENERAL_LOG_FORMAT_S
 
 FILE_PATH: str = config.GENERAL_LOG_PATH
 SUB_FOLDER: str = config.SUB_FOLDER
@@ -56,7 +57,6 @@ messages = config.CUSTOM_MESSAGES
 
 parameters: dict[str, Union[int, str, list[logging.Handler]]] = {
     'level': level_to_log,
-    'format': log_format,
     'handlers': [
         logging.FileHandler(LOG_PATH),
         logging.StreamHandler()
@@ -66,19 +66,26 @@ parameters: dict[str, Union[int, str, list[logging.Handler]]] = {
 
 class GenericLogger:
     def __init__(self) -> None:
-        """
-        Initializes the GenericLogger class and configures logging with the parameters
-        """
-        logging.basicConfig(**parameters)
+        self.logger_format: str = log_format_s
+        logging.basicConfig(**parameters, format=self.logger_format)
         self.logger: logging.Logger = logging.getLogger(__name__)
 
     @staticmethod
-    def get_logger(name: str = None) -> logging.Logger:
-        return logging.getLogger(name)
+    def get_logger(name: str = None, use_decorator_format: bool = False) -> logging.Logger:
+        logger = logging.getLogger(name)
+        if use_decorator_format:
+            logger_format = log_format
+        else:
+            logger_format = log_format_s
+        formatter = logging.Formatter(logger_format)
+        for handler in logger.handlers:
+            handler.setFormatter(formatter)
+        logger.setLevel(level_to_log)
+        return logger
 
 
-def get_default_logger() -> logging.Logger:
-    return GenericLogger().get_logger()
+def get_default_logger(use_decorator_format: bool = True) -> logging.Logger:
+    return GenericLogger().get_logger(use_decorator_format=use_decorator_format)
 
 
 def log(
@@ -89,18 +96,7 @@ def log(
 ):
     if not message:
         message = messages.get(level, "No message available")
-    """
-    :param func_to_decorate: callable = None
-    :param my_logger: Union[GenericLogger, logging.Logger] = None
-        The new logger instance to use, by default None.
-    :param level: int, optional
-    :param message: str, optional
-    :return: logging.Logger
-        A logger instance
 
-    This is a decorator function that logs messages for a given function.
-    It takes any function to decorate, a logger object, a log level, and a message as arguments
-    """
     def decorator_log(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
@@ -109,7 +105,13 @@ def log(
             module_name = filename.split('/')[-1].split('.')[0]
             line_number = inspect.getframeinfo(frame).lineno
             lineno = inspect.getsourcelines(func)[1]
-            logger: logging.Logger = get_default_logger()
+
+            # check if passed logger is an instance of GenericLogger class or logging.Logger and set the string format
+            if my_logger is None:
+                use_decorator_format = True
+            else:
+                use_decorator_format = not isinstance(my_logger, (logging.Logger, GenericLogger))
+            logger: logging.Logger = get_default_logger(use_decorator_format=use_decorator_format)
             try:
                 if not my_logger:
                     first_args = next(iter(args), None)
@@ -131,7 +133,7 @@ def log(
                     logger_container = my_logger
 
                 if isinstance(logger_container, GenericLogger):
-                    logger = logger_container.get_logger(func.__name__)
+                    logger = logger_container.get_logger(func.__name__, use_decorator_format=use_decorator_format)
                 else:
                     logger = logger_container
 
@@ -141,9 +143,12 @@ def log(
 
                 if not arguments:
                     arguments = "No args provided"
-
+                # if multiple objects was passed the format parameter may be still set incorrectly,
+                # so set it to True manually. This will not create any new logger object
+                get_default_logger(use_decorator_format=True)
                 logger.log(level, f" Message: {message}, Class: {func.__qualname__}, Function: {func.__name__}, called with args:"
                                   f" {arguments}, from module {module_name}, called from line {line_number}, executed at {lineno}")
+                get_default_logger(use_decorator_format=False)
             except Exception:
                 pass
 
