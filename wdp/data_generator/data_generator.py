@@ -22,7 +22,6 @@ import os
 
 
 dir_name = os.path.dirname(__file__)
-
 roles_path = os.path.join(dir_name, "..\\control_panel\\roles.json")
 sepcializations_path = os.path.join(dir_name, "..\\control_panel\\fields_and_skills.json")
 UPLOADS_PATH = os.path.join(dir_name, "..\\input_and_output\\uploads\\")
