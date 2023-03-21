@@ -107,11 +107,11 @@ def log(
             lineno = inspect.getsourcelines(func)[1]
 
             # check if passed logger is an instance of GenericLogger class or logging.Logger and set the string format
-            if my_logger is None:
-                use_decorator_format = True
-            else:
-                use_decorator_format = not isinstance(my_logger, (logging.Logger, GenericLogger))
-            logger: logging.Logger = get_default_logger(use_decorator_format=use_decorator_format)
+            # if my_logger is None:
+            #     use_decorator_format = True
+            # else:
+            #     use_decorator_format = not isinstance(my_logger, (logging.Logger, GenericLogger))
+            logger: logging.Logger = get_default_logger(use_decorator_format=False)
             try:
                 if not my_logger:
                     first_args = next(iter(args), None)
@@ -133,7 +133,7 @@ def log(
                     logger_container = my_logger
 
                 if isinstance(logger_container, GenericLogger):
-                    logger = logger_container.get_logger(func.__name__, use_decorator_format=use_decorator_format)
+                    logger = logger_container.get_logger(func.__name__, use_decorator_format=False)
                 else:
                     logger = logger_container
 
