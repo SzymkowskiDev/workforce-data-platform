@@ -154,6 +154,7 @@ wdp/custom_loggers/__pycache__/__init__.cpython-310.pyc
 wdp/custom_loggers/__pycache__/config.cpython-310.pyc
 wdp/custom_loggers/__pycache__/general.cpython-310.pyc
 wdp/custom_loggers/__pycache__/profiler.cpython-310.pyc
+wdp/__pycache__/
 wdp/custom_loggers/test_profiler.py
 wdp/custom_loggers/profiler_logs.json
 wdp/custom_loggers/general_logs.txt
