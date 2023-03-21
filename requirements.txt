@@ -2,6 +2,5 @@ tinydb~=4.7.1
 jsonschema~=4.17.3
 pandas~=1.5.3
 faker~=17.6.0
-phone_gen~=2.2.24
 psutil~=5.9.4
 matplotlib~=3.7.1
