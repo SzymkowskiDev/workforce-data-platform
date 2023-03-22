@@ -40,17 +40,13 @@ import logging
 import functools
 import inspect
 import os
-import wdp.custom_loggers.config as config
+from wdp.custom_loggers import config
 from typing import Union
 
 level_to_log: int = logging.DEBUG
-log_format: str = config.GENERAL_LOG_FORMAT
-log_format_s: str = config.GENERAL_LOG_FORMAT_S
 
-FILE_PATH: str = config.GENERAL_LOG_PATH
-SUB_FOLDER: str = config.SUB_FOLDER
 dir_path = os.path.dirname(os.path.abspath(__file__))
-data_folder = os.path.join(dir_path, SUB_FOLDER, FILE_PATH)
+data_folder = os.path.join(dir_path, config.SUB_FOLDER, config.GENERAL_LOG_PATH)
 LOG_PATH = data_folder
 
 messages = config.CUSTOM_MESSAGES
@@ -69,7 +65,7 @@ class GenericLogger:
         """
         Initializes the GenericLogger class with string log_format_s and configures logging with the parameters
         """
-        self.logger_format: str = log_format_s
+        self.logger_format: str = config.FUNC_LOG_FORMAT
         logging.basicConfig(**parameters, format=self.logger_format)
         self.logger: logging.Logger = logging.getLogger(__name__)
 
@@ -77,9 +73,9 @@ class GenericLogger:
     def get_logger(name: str = None, use_decorator_format: bool = False) -> logging.Logger:
         logger = logging.getLogger(name)
         if use_decorator_format:
-            logger_format = log_format
+            logger_format = config.DECORATOR_LOG_FORMAT
         else:
-            logger_format = log_format_s
+            logger_format = config.FUNC_LOG_FORMAT
         formatter = logging.Formatter(logger_format)
         for handler in logger.handlers:
             handler.setFormatter(formatter)
@@ -92,14 +88,14 @@ def get_default_logger(use_decorator_format: bool = True) -> logging.Logger:
 
 
 def log(
-    func_to_decorate=None, *,
-    my_logger: Union[GenericLogger, logging.Logger] = None,
+    function=None, *,
+    passed_logger: Union[GenericLogger, logging.Logger] = None,
     level: int = logging.DEBUG,
     message=None
 ):
     """
-        :param func_to_decorate: callable = None
-        :param my_logger: Union[GenericLogger, logging.Logger] = None
+        :param function: callable = None
+        :param passed_logger: Union[GenericLogger, logging.Logger] = None
             The new logger instance to use, by default None.
         :param level: int, optional
         :param message: str, optional
@@ -122,7 +118,7 @@ def log(
 
             logger: logging.Logger = get_default_logger(use_decorator_format=False)
             try:
-                if not my_logger:
+                if not passed_logger:
                     first_args = next(iter(args), None)
                     logger_params = [
                         x for x in kwargs.values()
@@ -139,7 +135,7 @@ def log(
                         ]
                     logger_container = next(iter(logger_params), GenericLogger())
                 else:
-                    logger_container = my_logger
+                    logger_container = passed_logger
 
                 if isinstance(logger_container, GenericLogger):
                     logger = logger_container.get_logger(func.__name__, use_decorator_format=False)
@@ -168,7 +164,8 @@ def log(
                 raise err
         return wrapper
 
-    if not func_to_decorate:
+    if not function:
         return decorator_log
     else:
-        return decorator_log(func_to_decorate)
+        return decorator_log(function)
+
