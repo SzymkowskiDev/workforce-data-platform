@@ -101,6 +101,12 @@ ERROR_LOG_PATH = os.getenv(
 )
 
 
+EXECUTOR_FACTORIES: dict[str, type[concurrent.futures.Executor]] = {
+    'threading': concurrent.futures.ThreadPoolExecutor,
+    'multiprocessing': concurrent.futures.ProcessPoolExecutor,
+}
+
+
 class _NoFuture(typing.Generic[_NoFutureReturnT]):
     """Internal helper for synchronous execution."""
 
@@ -124,12 +130,7 @@ class _NoExecutor(concurrent.futures.Executor):
         return _NoFuture[_NoFutureReturnT](fn, args, kwargs)
 
 
-EXECUTOR_FACTORIES: dict[str, type[concurrent.futures.Executor]] = {
-    'threading': concurrent.futures.ThreadPoolExecutor,
-    'multiprocessing': concurrent.futures.ProcessPoolExecutor,
-    'sync': _NoExecutor,
-}
-_JSON_TOKENS: bytes = b'{['
+EXECUTOR_FACTORIES['sync'] = _NoExecutor
 
 
 class DataConversionError(Exception):
@@ -202,6 +203,9 @@ def _try_read_csv(
 def _on_error(fp: io.BufferedReader, encoding: str) -> None:
     """Raise an error when data format could not be guessed."""
     raise DataConversionError('could not guess data format')
+
+
+_JSON_TOKENS: bytes = b'{['
 
 
 def jsonify_file(
