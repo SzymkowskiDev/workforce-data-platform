@@ -89,6 +89,17 @@ _PathLike = os.PathLike | str
 
 _NoFutureReturnT = typing.TypeVar('_NoFutureReturnT')
 
+DEFAULT_SOURCE_DIRECTORY: _PathLike = os.getenv(
+    'IO_SOURCE_DIRECTORY', app_path('input_and_output/uploads')
+)
+DEFAULT_TARGET_DIRECTORY: _PathLike = os.getenv(
+    'IO_TARGET_DIRECTORY', app_path('input_and_output/converted')
+)
+ERROR_LOG_PATH = os.getenv(
+    'IO_ERROR_LOG_PATH',
+    app_path('input_and_output/error_logs/data_converter.log'),
+)
+
 
 class _NoFuture(typing.Generic[_NoFutureReturnT]):
     """Internal helper for synchronous execution."""
@@ -118,17 +129,6 @@ EXECUTOR_FACTORIES: dict[str, type[concurrent.futures.Executor]] = {
     'multiprocessing': concurrent.futures.ProcessPoolExecutor,
     'sync': _NoExecutor,
 }
-
-DEFAULT_SOURCE_DIRECTORY: _PathLike = os.getenv(
-    'IO_SOURCE_DIRECTORY', app_path('input_and_output/uploads')
-)
-DEFAULT_TARGET_DIRECTORY: _PathLike = os.getenv(
-    'IO_TARGET_DIRECTORY', app_path('input_and_output/converted')
-)
-ERROR_LOG_PATH = os.getenv(
-    'IO_ERROR_LOG_PATH',
-    app_path('input_and_output/error_logs/data_converter.log'),
-)
 _JSON_TOKENS: bytes = b'{['
 
 
@@ -350,7 +350,7 @@ class DirectoryWatcher(threading.Thread):
         self.recursive = recursive
         self.executor_factory = executor_factory
 
-    def __new__(cls, _, source_directory, /, **_kwargs):
+    def __new__(cls, _, source_directory: _PathLike, /, **_kwargs):
         """Use singleton pattern to avoid multiple watchers for the same directory."""
         normalized_path = os.path.normpath(source_directory)
         if cls._registry.get(normalized_path):
