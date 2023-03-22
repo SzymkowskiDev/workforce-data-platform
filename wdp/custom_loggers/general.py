@@ -49,8 +49,6 @@ dir_path = os.path.dirname(os.path.abspath(__file__))
 data_folder = os.path.join(dir_path, config.SUB_FOLDER, config.GENERAL_LOG_PATH)
 LOG_PATH = data_folder
 
-messages = config.CUSTOM_MESSAGES
-
 parameters: dict[str, Union[int, str, list[logging.Handler]]] = {
     'level': level_to_log,
     'handlers': [
@@ -63,7 +61,7 @@ parameters: dict[str, Union[int, str, list[logging.Handler]]] = {
 class GenericLogger:
     def __init__(self) -> None:
         """
-        Initializes the GenericLogger class with string log_format_s and configures logging with the parameters
+        Initializes the GenericLogger class with string FUNC_LOG_FORMAT and configures logging with the parameters
         """
         self.logger_format: str = config.FUNC_LOG_FORMAT
         logging.basicConfig(**parameters, format=self.logger_format)
@@ -72,10 +70,7 @@ class GenericLogger:
     @staticmethod
     def get_logger(name: str = None, use_decorator_format: bool = False) -> logging.Logger:
         logger = logging.getLogger(name)
-        if use_decorator_format:
-            logger_format = config.DECORATOR_LOG_FORMAT
-        else:
-            logger_format = config.FUNC_LOG_FORMAT
+        logger_format = config.DECORATOR_LOG_FORMAT if use_decorator_format else config.FUNC_LOG_FORMAT
         formatter = logging.Formatter(logger_format)
         for handler in logger.handlers:
             handler.setFormatter(formatter)
@@ -89,13 +84,13 @@ def get_default_logger(use_decorator_format: bool = True) -> logging.Logger:
 
 def log(
     function=None, *,
-    passed_logger: Union[GenericLogger, logging.Logger] = None,
+    new_logger: Union[GenericLogger, logging.Logger] = None,
     level: int = logging.DEBUG,
-    message=None
+    message="No message"
 ):
     """
         :param function: callable = None
-        :param passed_logger: Union[GenericLogger, logging.Logger] = None
+        :param new_logger: Union[GenericLogger, logging.Logger] = None
             The new logger instance to use, by default None.
         :param level: int, optional
         :param message: str, optional
@@ -104,8 +99,6 @@ def log(
         This is a decorator function that logs messages for a given function.
         It takes any function to decorate, a logger object, a log level, and a message as arguments
         """
-    if not message:
-        message = messages.get(level, "No message available")
 
     def decorator_log(func):
         @functools.wraps(func)
@@ -118,24 +111,17 @@ def log(
 
             logger: logging.Logger = get_default_logger(use_decorator_format=False)
             try:
-                if not passed_logger:
-                    first_args = next(iter(args), None)
-                    logger_params = [
-                        x for x in kwargs.values()
-                        if isinstance(x, logging.Logger) or isinstance(x, GenericLogger)
-                    ] + [
-                        x for x in args
-                        if isinstance(x, logging.Logger) or isinstance(x, GenericLogger)
-                    ]
-                    if hasattr(first_args, "__dict__"):
-                        logger_params = logger_params + [
-                            x for x in first_args.__dict__.values()
-                            if isinstance(x, logging.Logger)
-                            or isinstance(x, GenericLogger)
-                        ]
-                    logger_container = next(iter(logger_params), GenericLogger())
+                if not new_logger:
+                    first_arg = args[0] if args else None
+                    # get an element from *args and **kwargs that are instances of logging.Logger or GenericLogger
+                    logger_params = [x for x in (*args, *kwargs.values()) if isinstance(x, (logging.Logger, GenericLogger))]
+                    # check if the first arg is a part of the class
+                    if hasattr(first_arg, "__dict__"):
+                        # if so, let's check if one of these values is an instance of a logger
+                        logger_params += [x for x in first_arg.__dict__.values() if isinstance(x, (logging.Logger, GenericLogger))]
+                    logger_container = logger_params[0] if logger_params else GenericLogger()
                 else:
-                    logger_container = passed_logger
+                    logger_container = new_logger
 
                 if isinstance(logger_container, GenericLogger):
                     logger = logger_container.get_logger(func.__name__, use_decorator_format=False)
@@ -168,4 +154,3 @@ def log(
         return decorator_log
     else:
         return decorator_log(function)
-
