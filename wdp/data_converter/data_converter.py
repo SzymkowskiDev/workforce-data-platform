@@ -430,4 +430,5 @@ if __name__ == '__main__':
         app_path('input_and_output/converted'),
         mode='sync',
     )
+    watcher_thread.start()
     watcher_thread.join()
