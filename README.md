@@ -1,3 +1,4 @@
+🔗 [Kanban board](https://github.com/users/SzymkowskiDev/projects/8/views/1)
 
 # Workforce Data Platform
 TODO: Context and product showcase
