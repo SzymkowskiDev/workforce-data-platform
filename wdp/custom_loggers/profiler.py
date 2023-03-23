@@ -52,13 +52,17 @@ plot_profiler_path = os.path.join(dir_path, SUB_FOLDER, PLOT_PROFILER_PATH)
 json_profiler_path = os.path.join(dir_path, SUB_FOLDER, JSON_PROFILER_PATH)
 txt_profiler_path = os.path.join(dir_path, SUB_FOLDER, TXT_PROFILER_PATH)
 
-now = datetime.datetime.now()
-now_str: str = now.strftime("%d/%m/%Y %H:%M:%S")
-timestamp: float = now.timestamp()
+
+def get_time():
+    now = datetime.datetime.now()
+    now_str: str = now.strftime("%d/%m/%Y %H:%M:%S")
+    timestamp: float = now.timestamp()
+    return now_str, timestamp
 
 
-def print_to_console(func: callable, memory: float, stats: pstats.Stats) -> None:
+def print_to_console(func: Callable, memory: float, stats: pstats.Stats) -> None:
     """ Prints profiler statistics and memory usage to console """
+    now_str = get_time()[0]
     print("=" * 10, f"Stats for function: {func.__name__}", "=" * 10)
     stats.strip_dirs()
     stats.sort_stats(sort_method).print_stats()
@@ -66,8 +70,10 @@ def print_to_console(func: callable, memory: float, stats: pstats.Stats) -> None
     print("=" * 10, f"Generated {now_str}", "=" * 10)
 
 
-def log_to_json(func: callable, memory: float, stats: pstats.Stats) -> None:
+def log_to_json(func: Callable, memory: float, stats: pstats.Stats) -> None:
     """ Logs profiler statistics and memory usage to a JSON file """
+    now_str = get_time()[0]
+    timestamp = get_time()[1]
     string = {
         "captured_data": {
             "timestamp": timestamp,
@@ -92,11 +98,12 @@ def log_to_json(func: callable, memory: float, stats: pstats.Stats) -> None:
             json.dump(data, file, indent=4)
 
 
-def log_to_txt(profiler: cProfile.Profile, memory: float, func: callable) -> None:
+def log_to_txt(profiler: cProfile.Profile, memory: float, func: Callable) -> None:
     """ Logs profiler statistics and memory usage to a text file """
+    now_str = get_time()[0]
     with open(txt_profiler_path, 'a') as file:
         stats = pstats.Stats(profiler, stream=file)
-        stats.stream = file
+        # stats.stream = file
         file.write("\n" + "=" * 30 + f" Stats for function: {func.__name__} " + "=" * 30 + "\n")
         stats.sort_stats(sort_method).print_stats()
         file.write(f"Memory usage: {memory:.2f} MB\n")
@@ -123,22 +130,22 @@ def plot() -> None:
     time_data = [(entry["captured_data"]["function_name"], entry["captured_data"]["time_usage"]) for entry in data]
     calls_data = [(entry["captured_data"]["function_name"], entry["captured_data"]["calls"]) for entry in data]
 
-    fig, axs = plt.subplots(3, figsize=(10, 10))
+    fig, (ax1, ax2, ax3) = plt.subplots(3, figsize=(10, 10))
 
-    axs[0].plot([entry[0] for entry in memory_data], [entry[1] for entry in memory_data], 'o-')
-    axs[0].set_title("Memory Usage")
-    axs[0].set_xlabel("Time")
-    axs[0].set_ylabel("Memory Usage (MB)")
+    ax1.plot([entry[0] for entry in memory_data], [entry[1] for entry in memory_data], 'o-')
+    ax1.set_title("Memory Usage")
+    ax1.set_xlabel("Time")
+    ax1.set_ylabel("Memory Usage (MB)")
 
-    axs[1].plot([entry[0] for entry in time_data], [entry[1] for entry in time_data], 'o-')
-    axs[1].set_title("Time Usage")
-    axs[1].set_xlabel("Time")
-    axs[1].set_ylabel("Time (s)")
+    ax2.plot([entry[0] for entry in time_data], [entry[1] for entry in time_data], 'o-')
+    ax2.set_title("Time Usage")
+    ax2.set_xlabel("Time")
+    ax2.set_ylabel("Time (s)")
 
-    axs[2].plot([entry[0] for entry in calls_data], [entry[1] for entry in calls_data], 'o-')
-    axs[2].set_title("Number of Function Calls")
-    axs[2].set_xlabel("Time")
-    axs[2].set_ylabel("Number of Calls")
+    ax3.plot([entry[0] for entry in calls_data], [entry[1] for entry in calls_data], 'o-')
+    ax3.set_title("Number of Function Calls")
+    ax3.set_xlabel("Time")
+    ax3.set_ylabel("Number of Calls")
 
     plt.tight_layout()
     plt.savefig(plot_profiler_path)
