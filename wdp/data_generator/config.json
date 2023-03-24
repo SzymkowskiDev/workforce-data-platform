@@ -5,6 +5,7 @@
     "employee_output_name": "employee",
     "employee_salary_min": 1000,
     "employee_salary_max": 30000,
+    "employee_phone_number_length": 9,
 
     "survey_output_name": "survey"
 }
