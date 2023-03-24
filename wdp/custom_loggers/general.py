@@ -2,44 +2,61 @@
 Logger created by tomekkurzydlak for easy logging in Python, using just the @log decorator.
 
 Usage:
-    from wdp.custom_loggers.general import *
+    from wdp.custom_loggers import log, GenericLogger
 
-    Then use the @log decorator to log details. You can specify the logging level and message as below:
+    Use the @log decorator to log details with default logger. You can specify the logging level and message as below:
 
     @log(level=logging.INFO, message='Function called: ')
     def my_function(arg1, arg2):
         pass
 
     Both parameters are optional. By default, provided level is DEBUG, and you can use the @log decorator as easy as:
+
     @log
     def my_function(arg1, arg2):
         pass
 
-    Logs are saved to "general_logs.txt" file and printed to console with the DEBUG level.
-    The logs include the function name, class name (if in class method), and arguments passed to the function.
+    You can also pass your own logger to @log decorator:
 
-    You can find and change log path, log format and logging level parameters right below import statements.
+    new_logger = logging.getLogger("new logger")
+    @log(my_logger=new_logger)
+
+    This will use your object and will not create any new logger.
+
+    You can also use GenericLogger class directly to create a logger object:
+
+    logger_from_generic_class = GenericLogger().get_logger(name="from GenericLogger class")
+    def calculate_sum(a, b):
+        logger_from_generic_class.debug("logger from GenericLogger class")
+        return a + b
+
+    Logs are saved to "general_logs.txt" file and printed to console
+    The logs include time, level, the function name, class name (if in class method), and arguments passed to the function.
+
+    You can configure path, log format and custom messages in config.py file
 """
 
 import logging
 import functools
+import inspect
+import os
+import wdp.custom_loggers.config as config
 from typing import Union
 
 level_to_log: int = logging.DEBUG
-log_format: str = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-LOG_PATH: str = "general_logs.txt"
+log_format: str = config.GENERAL_LOG_FORMAT
+log_format_s: str = config.GENERAL_LOG_FORMAT_S
 
-messages = {
-    10: "This is a debug message",
-    20: "This is an info message",
-    30: "This is a warning message",
-    40: "This is an error message",
-    50: "This is a critical message"
-}
+FILE_PATH: str = config.GENERAL_LOG_PATH
+SUB_FOLDER: str = config.SUB_FOLDER
+dir_path = os.path.dirname(os.path.abspath(__file__))
+data_folder = os.path.join(dir_path, SUB_FOLDER, FILE_PATH)
+LOG_PATH = data_folder
+
+messages = config.CUSTOM_MESSAGES
 
 parameters: dict[str, Union[int, str, list[logging.Handler]]] = {
     'level': level_to_log,
-    'format': log_format,
     'handlers': [
         logging.FileHandler(LOG_PATH),
         logging.StreamHandler()
@@ -50,18 +67,28 @@ parameters: dict[str, Union[int, str, list[logging.Handler]]] = {
 class GenericLogger:
     def __init__(self) -> None:
         """
-        Initializes the GenericLogger class and configures logging with the parameters
+        Initializes the GenericLogger class with string log_format_s and configures logging with the parameters
         """
-        logging.basicConfig(**parameters)
+        self.logger_format: str = log_format_s
+        logging.basicConfig(**parameters, format=self.logger_format)
         self.logger: logging.Logger = logging.getLogger(__name__)
 
     @staticmethod
-    def get_logger(name: str = None) -> logging.Logger:
-        return logging.getLogger(name)
+    def get_logger(name: str = None, use_decorator_format: bool = False) -> logging.Logger:
+        logger = logging.getLogger(name)
+        if use_decorator_format:
+            logger_format = log_format
+        else:
+            logger_format = log_format_s
+        formatter = logging.Formatter(logger_format)
+        for handler in logger.handlers:
+            handler.setFormatter(formatter)
+        logger.setLevel(level_to_log)
+        return logger
 
 
-def get_default_logger() -> logging.Logger:
-    return GenericLogger().get_logger()
+def get_default_logger(use_decorator_format: bool = True) -> logging.Logger:
+    return GenericLogger().get_logger(use_decorator_format=use_decorator_format)
 
 
 def log(
@@ -70,24 +97,30 @@ def log(
     level: int = logging.DEBUG,
     message=None
 ):
+    """
+        :param func_to_decorate: callable = None
+        :param my_logger: Union[GenericLogger, logging.Logger] = None
+            The new logger instance to use, by default None.
+        :param level: int, optional
+        :param message: str, optional
+        :return: logging.Logger
+            A logger instance
+        This is a decorator function that logs messages for a given function.
+        It takes any function to decorate, a logger object, a log level, and a message as arguments
+        """
     if not message:
         message = messages.get(level, "No message available")
-    """
-    :param func_to_decorate: callable = None
-    :param my_logger: Union[GenericLogger, logging.Logger] = None
-        The new logger instance to use, by default None.
-    :param level: int, optional
-    :param message: str, optional
-    :return: logging.Logger
-        A logger instance
 
-    This is a decorator function that logs messages for a given function.
-    It takes any function to decorate, a logger object, a log level, and a message as arguments
-    """
     def decorator_log(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            logger: logging.Logger = get_default_logger()
+            frame = inspect.currentframe().f_back
+            filename = inspect.getframeinfo(frame).filename
+            module_name = filename.split('/')[-1].split('.')[0]
+            line_number = inspect.getframeinfo(frame).lineno
+            lineno = inspect.getsourcelines(func)[1]
+
+            logger: logging.Logger = get_default_logger(use_decorator_format=False)
             try:
                 if not my_logger:
                     first_args = next(iter(args), None)
@@ -109,17 +142,21 @@ def log(
                     logger_container = my_logger
 
                 if isinstance(logger_container, GenericLogger):
-                    logger = logger_container.get_logger(func.__name__)
+                    logger = logger_container.get_logger(func.__name__, use_decorator_format=False)
                 else:
                     logger = logger_container
 
                 args_repr = [repr(a) for a in args]
                 kwargs_repr = [f"{k}={v!r}" for k, v in kwargs.items()]
                 arguments = ", ".join(args_repr + kwargs_repr)
+
                 if not arguments:
                     arguments = "No args provided"
+
+                get_default_logger(use_decorator_format=True)
                 logger.log(level, f" Message: {message}, Class: {func.__qualname__}, Function: {func.__name__}, called with args:"
-                                  f" {arguments}")
+                                  f" {arguments}, from module {module_name}, called from line {line_number}, executed at {lineno}")
+                get_default_logger(use_decorator_format=False)
             except Exception:
                 pass
 
