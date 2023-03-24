@@ -10,7 +10,7 @@ CREATE TABLE Employees(
     job_title VARCHAR(20),
 	joined_on DATE NOT NULL,
 	email VARCHAR(250) NOT NULL UNIQUE,
-	phone VARCHAR(12) NOT NULL UNIQUE,
+	phone_number VARCHAR(12) NOT NULL UNIQUE,
 	birthday DATE NOT NULL,
 	country VARCHAR(50) NOT NULL,
 	city VARCHAR(250) NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE Employees(
 	salary INTEGER,
 	specification VARCHAR(250),
 	PRIMARY KEY (employee_id),
-	CHECK(joined_on > birthday),
+	CHECK (joined_on > birthday),
 	FOREIGN KEY (project_id) REFERENCES Projects(project_id),
 	FOREIGN KEY (last_role) REFERENCES Roles(role_id),
 	FOREIGN KEY (role_preferred) REFERENCES Roles(role_id)
