@@ -1,3 +1,4 @@
+import os
 import pathlib
 
 
@@ -9,6 +10,6 @@ def app_root_path() -> pathlib.Path:
     return ROOT
 
 
-def app_path(folder_name: str) -> pathlib.Path:
+def app_path(folder_name: os.PathLike) -> pathlib.Path:
     """Returns the path of the folder with the given name."""
     return app_root_path() / folder_name
