@@ -113,11 +113,8 @@ def log(
             try:
                 if not new_logger:
                     first_arg = args[0] if args else None
-                    # get an element from *args and **kwargs that are instances of logging.Logger or GenericLogger
                     logger_params = [x for x in (*args, *kwargs.values()) if isinstance(x, (logging.Logger, GenericLogger))]
-                    # check if the first arg is a part of the class
                     if hasattr(first_arg, "__dict__"):
-                        # if so, let's check if one of these values is an instance of a logger
                         logger_params += [x for x in first_arg.__dict__.values() if isinstance(x, (logging.Logger, GenericLogger))]
                     logger_container = logger_params[0] if logger_params else GenericLogger()
                 else:
@@ -139,10 +136,12 @@ def log(
                 logger.log(level, f" Message: {message}, Class: {func.__qualname__}, Function: {func.__name__}, called with args:"
                                   f" {arguments}, from module {module_name}, called from line {line_number}, executed at line {lineno}")
                 get_default_logger(use_decorator_format=False)
-            except Exception:
-                pass
+            except Exception as err:
+                logger.info(f"Exception raised in {func.__name__} during args shuffling. Exception: {str(err)}")
+                pass  # as it's just a logger, I don't want it to cause any interruptions before logging
 
             try:
+                # in case decorated function raise any exception log it, and then reraise
                 result = func(*args, **kwargs)
                 return result
             except Exception as err:
