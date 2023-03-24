@@ -1,0 +1,1 @@
+-- Dear Urlich, please place here SQL code to populate the database with dummy data for testing.

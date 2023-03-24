@@ -1,0 +1,3 @@
+Dear Hugon,
+
+Please place your scraper in this directory. Ensure that filepaths in your script are not broken.
