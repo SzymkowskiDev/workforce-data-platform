@@ -1,27 +1,105 @@
 import unittest
 from document_db import JobOffersDB
 import random
+from sample_data import job_offer_sample
+import pandas as pd
 
 class TestJobOffersDB(unittest.TestCase):
 
+    @classmethod
+    def setUpClass(cls):
+        # set up the main database and the test database
+        cls.job_offers_db = JobOffersDB('document_db.json')
+        cls.test_job_offers_db = JobOffersDB('test_document_db.json')
+    
     def setUp(self):
-        # set up the main and test job offers databases
-        self.job_offers_db = JobOffersDB('document_db.json')
-        self.test_job_offers_db = JobOffersDB('test_document_db.json')
-
         # Select 20 random job offers from the existing database
         all_job_offers = self.job_offers_db.get_all_job_offers()
-        random_job_offers = random.sample(all_job_offers, 20)
+        random_job_offers = all_job_offers.sample(n=20)
+        random_job_offers_list = random_job_offers.to_dict('records')
 
         # insert the random job offers into the test database
-        self.test_job_offers_db.insert_multiple_job_offers(random_job_offers)
+        self.test_job_offers_db.insert_multiple_job_offers(random_job_offers_list)
 
-        self.job_offer_sample = {"title": "IT Business Analyst", "street": "Zdalnie", "city": "Warszawa", "country_code": "PL", "address_text": "Zdalnie, Warszawa", "marker_icon": "analytics", "workplace_type": "remote", "company_name": "Let's automate", "company_url": "http://www.letsautomate.pl", "company_size": "25+", "experience_level": "mid", "latitude": "52.2296756", "longitude": "21.0122287", "published_at": "2023-03-23T20:00:10.675Z", "remote_interview": true, "open_to_hire_ukrainians": false, "id": "let-s-automate-it-business-analyst", "display_offer": true, "employment_types": [{"type": "b2b", "salary": {"from": 10000, "to": 20000, "currency": "pln"}}], "company_logo_url": "https://bucket.justjoin.it/offers/company_logos/thumb/8fe67945073767304297ac946dbe71def206cfce.png?1677784352", "skills": [{"name": "SQL", "level": 3}, {"name": "UML", "level": 3}, {"name": "BPMN", "level": 3}], "remote": true, "multilocation": [{"city": "Warszawa", "street": "Zdalnie", "slug": "let-s-automate-it-business-analyst"}], "way_of_apply": "redirect", "description": "Cze\u015b\u0107! Jeste\u015bmy Let's automate - automatyzujemy i digitalizujemy firmy, aby mog\u0142y szybciej rosn\u0105\u0107 i skalowa\u0107 si\u0119, wyprzedzaj\u0105c konkurencj\u0119 o lata \u015bwietlne. Udowadniamy, \u017ce automatyzacja to prawdziwy game-changer dla biznesu, szczeg\u00f3lnie w czasach kryzysu.\nWykorzystuj\u0105c narz\u0119dzia no-code i low-code sprawiamy, \u017ce przedsi\u0119biorcy nie musz\u0105 wykonywa\u0107 ci\u0105gle tych samych \u017cmudnych i powtarzalnych zada\u0144. Dzia\u0142amy na pograniczu biznesu i technologii, pracujemy z w\u0142a\u015bcicielami firm, menad\u017cerami, a naszymi klientami s\u0105 firmy z przer\u00f3\u017cnych bran\u017c. Dodatkowo od grudnia 2022 jeste\u015bmy cz\u0119\u015bci\u0105 WiseGroup. To wszystko sprawia, \u017ce nigdy nie ma nudy, a praca z nami dostarcza ekstremalnie du\u017co wyzwa\u0144 i mo\u017cliwo\u015bci \ud83d\ude80\nJe\u015bli rozumiesz biznes, masz do\u015bwiadczenie w analizie proces\u00f3w i czujesz, \u017ce to miejsce dla Ciebie - zaaplikuj! Poszukujemy osoby, kt\u00f3ra zajmie si\u0119 szczeg\u00f3\u0142owym identyfikowaniem potrzeb klient\u00f3w, prowadzeniem analiz i audyt\u00f3w, mapowaniem proces\u00f3w biznesowych - to wszystko aby jak najlepiej dopasowa\u0107 automatyzacj\u0119 do firmy klienta.\u00a0\nNie wymagamy do\u015bwiadczenia konkretnie w automatyzacji - nauczymy Ci\u0119 naszego podej\u015bcia! Dla nas najwa\u017cniejsze jest, aby\u015b interesowa\u0142/-a si\u0119 technologi\u0105, doskonale rozumia\u0142/-a potrzeby biznesowe klient\u00f3w oraz mia\u0142/-a du\u017ce do\u015bwiadczenie w analizie proces\u00f3w.\u00a0Czym b\u0119dziesz si\u0119 zajmowa\u0142/-a?\u00a0\n\nanaliza i mapowanie proces\u00f3w biznesowych naszych klient\u00f3w \u2014 zrozumienie potrzeb biznesowych i rozpisanie proces\u00f3w pod k\u0105tem automatyzacji;\nprowadzenie audyt\u00f3w proces\u00f3w i zbieranie wymaga\u0144 klienta;\nprojektowanie zautomatyzowanego workflow, dob\u00f3r rozwi\u0105za\u0144 i narz\u0119dzi IT;\n\nprezentowanie wypracowanych rozwi\u0105za\u0144 oraz kontakt z klientem na etapie analizy;\nbardzo bliska wsp\u00f3\u0142praca ze sprzedawcami, project managerami oraz zespo\u0142em technicznym.\nCzego od Ciebie oczekujemy?\u00a0\n\nkilkuletnie do\u015bwiadczenie jako konsultant / analityk biznesowy (szczeg\u00f3lnie w zakresie IT/technologia);\n\ndo\u015bwiadczenie w pracy z klientem biznesowym;\ndojrza\u0142o\u015b\u0107 biznesowa, pozwalaj\u0105ca na zadawanie odpowiednich pyta\u0144, kt\u00f3re prowadz\u0105 klienta podczas rozmowy;\nznajomo\u015b\u0107 BPMN;\nwyj\u0105tkowe zdolno\u015bci s\u0142uchania i nawi\u0105zywania partnerskich relacji z klientem;\numiej\u0119tno\u015b\u0107 samodzielnego ustalania cel\u00f3w i planowania zada\u0144;\nnastawienie na sukces klienta;\ncharyzma i pewno\u015b\u0107 siebie, poparte wiedz\u0105;\nnastawienie na rozw\u00f3j zawodowy i ch\u0119\u0107 wsp\u00f3lnego budowania silnej marki \ud83e\uddbe\n\nmile widziane: do\u015bwiadczenie w pracy z automatyzacj\u0105, znajomo\u015b\u0107 j\u0119zyka angielskiego;\nFinanse \ud83d\udcb8\u00a0Stawka dostosowana jest do Twojego do\u015bwiadczenia i umiej\u0119tno\u015bci. Przewidujemy wynagrodzenie podstawowe na poziomie 10 000 - 20 000 PLN netto.\u00a0Dodatkowo mo\u017cesz liczy\u0107 na:\u00a0\nprac\u0119 w 100% zdaln\u0105;\nelastyczne godziny pracy;\n\nstartupowy klimat pracy oraz bardzo intensywny rozw\u00f3j;\n\nfirmowy sprz\u0119t konieczny do pracy;\nciekaw\u0105 prac\u0119 pe\u0142n\u0105 wyzwa\u0144, w lu\u017anej i przyjacielskiej atmosferze;\n\nspotkania integracyjne i m\u0142ody, inspiruj\u0105cy zesp\u00f3\u0142 - ka\u017cdy z nas robi co\u015b fajnego!\n\ndost\u0119p do kurs\u00f3w, ksi\u0105\u017cek - zale\u017cy nam na Twoim rozwoju.\n\nJe\u015bli chcesz do\u0142\u0105czy\u0107 do naszego zespo\u0142u i zmienia\u0107 przysz\u0142o\u015b\u0107 firm - zaaplikuj! \ud83e\uddbe\nPo otrzymaniu zg\u0142oszenia zapoznamy si\u0119 z Twoim CV oraz odpowiedziami w formularzu. Je\u015bli Twoje do\u015bwiadczenie i podej\u015bcie b\u0119d\u0105 pasowa\u0142y do charakteru pracy, skontaktujemy si\u0119 z Tob\u0105 telefonicznie, na kr\u00f3tk\u0105, 5-minutow\u0105 rozmow\u0119 zapoznawcz\u0105.\u00a0Kolejny krok to 30-minutowe spotkanie online, na kt\u00f3rym porozmawiamy szerzej o Twoim do\u015bwiadczeniu i stanowisku, a nast\u0119pnie zadanie praktyczne.\nJe\u017celi analiza Twojej pracy przebiegnie pomy\u015blnie, zaprosimy Ci\u0119 na ostatnie spotkanie online z cz\u0142onkiem naszego zespo\u0142u. Na koniec ka\u017cdego etapu wr\u00f3cimy z feedbackiem i decyzj\u0105 odno\u015bnie ewentualnych dalszych krok\u00f3w."}
+        # Store the ID of one of the randomly selected job offers
+        self.random_job_offer_id = random_job_offers_list[0]['id']
 
-        def tearDown(self):
-            self.test_job_offers_db.delete_all_job_offers()
+        self.job_offer_sample = job_offer_sample
 
-        def test_insert_job_offer(self):
-            self.test_job_offers_db.insert_job_offer(self.job_offer_sample)
-            job_offer = self.test_job_offers_db.get_job_offer(self.job_offer_sample['id'])
-            self.assertEqual(job_offer, self.job_offer_sample)
+
+    def test_insert_job_offer(self):
+        self.test_job_offers_db.insert_job_offer(self.job_offer_sample)
+        job_offer = self.test_job_offers_db.get_job_offer_by_id(self.job_offer_sample['id'])
+        self.assertEqual(job_offer, self.job_offer_sample)
+
+    def test_get_job_offer_by_id(self):
+        job_offer = self.test_job_offers_db.get_job_offer_by_id(self.random_job_offer_id)
+        self.assertIsNotNone(job_offer)
+
+    def test_get_all_job_offers(self):
+        job_offers_df = self.test_job_offers_db.get_all_job_offers()
+        self.assertEqual(job_offers_df.shape[0], 20)
+
+    def test_update_job_offer(self):
+        # insert job offer and update its title
+        self.test_job_offers_db.insert_job_offer(self.job_offer_sample)
+        updated_title = "Updated IT Business Analyst"
+        self.job_offer_sample["title"] = updated_title
+        self.test_job_offers_db.update_job_offer(self.job_offer_sample["id"], self.job_offer_sample)
+
+        # check if the title was updated
+        updated_job_offer = self.test_job_offers_db.get_job_offer_by_id(self.job_offer_sample["id"])
+        self.assertEqual(updated_job_offer["title"], updated_title)
+
+    def test_delete_job_offer(self):
+        # insert job offer -> then delete it
+        self.test_job_offers_db.insert_job_offer(self.job_offer_sample)
+        self.test_job_offers_db.delete_job_offer(self.job_offer_sample["id"])
+
+        # check if the job offer was deleted
+        deleted_job_offer = self.test_job_offers_db.get_job_offer_by_id(self.job_offer_sample["id"])
+        self.assertIsNone(deleted_job_offer)
+
+    def test_insert_multiple_job_offers(self):
+        new_job_offers = [self.job_offer_sample, self.job_offer_sample, self.job_offer_sample, self.job_offer_sample,  self.job_offer_sample]
+        self.test_job_offers_db.insert_multiple_job_offers(new_job_offers)
+
+        # Check if the new job offers have been added
+        all_job_offers = self.test_job_offers_db.get_all_job_offers()
+        self.assertEqual(len(all_job_offers), 25)
+
+    def test_get_job_offers_by_salary_range(self):
+        lower_bound = 15000
+        upper_bound = 20000
+
+        salary_range_job_offers = self.test_job_offers_db.get_job_offers_by_salary_range(lower_bound, upper_bound)
+        for _, job_offer in salary_range_job_offers.iterrows():
+            for emplyment_type in job_offer["employment_types"]:
+                if emplyment_type["salary"]:
+                    salary_from = emplyment_type["salary"].get("from",0)
+                    salary_to = emplyment_type["salary"].get("to",0)
+                    self.assertTrue(
+                        lower_bound <= salary_from <= upper_bound,
+                        f"Job offer salary_from {salary_from} is not within the specified range."
+                    )
+                    self.assertTrue(
+                        lower_bound <= salary_to <= upper_bound,
+                        f"Job offer salary_to {salary_to} is not within the specified range."
+                    )
+                
+
+    def tearDown(self):
+        # Clear the test database after each test
+        all_job_offers_df = self.test_job_offers_db.get_all_job_offers()
+        for _, job_offer in all_job_offers_df.iterrows():
+            if isinstance(job_offer, pd.Series):
+                self.test_job_offers_db.delete_job_offer(job_offer["id"])
+
+    @classmethod
+    def tearDownClass(cls):
+        # Close the test database
+        cls.test_job_offers_db.close()
+
+    
+if __name__ == '__main__':
+    unittest.main()
