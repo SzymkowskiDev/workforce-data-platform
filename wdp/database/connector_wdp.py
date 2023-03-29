@@ -97,9 +97,11 @@ class Database:
 
         :param emp_data: employees dataset
         """
-        self.cursor.executemany("""INSERT INTO Employees VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                                emp_data)
-        self.connection.commit()
+        self.cursor.execute('BEGIN TRANSACTION')
+        for x in emp_data:
+            self.cursor.execute("""INSERT INTO Employees VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                                x)
+        self.cursor.execute('COMMIT')
 
     def insert_one_client(self, client_id, client_name, city, country, business):
         """Insert one position into Clients table
@@ -119,8 +121,10 @@ class Database:
 
         :param client_data: clients dataset
         """
-        self.cursor.executemany("""INSERT INTO Clients VALUES (?, ?, ?, ?, ?)""", client_data)
-        self.connection.commit()
+        self.cursor.execute('BEGIN TRANSACTION')
+        for x in client_data:
+            self.cursor.execute("""INSERT INTO Clients VALUES (?, ?, ?, ?, ?)""", x)
+        self.cursor.execute('COMMIT')
 
     def insert_one_project(self, project_id, project_name, client_id, started_on, deadline_on, budget):
         """Insert one position into Projects table
@@ -141,8 +145,10 @@ class Database:
 
         :param project_data: projects dataset
         """
-        self.cursor.executemany("""INSERT INTO Projects VALUES (?, ?, ?, ?, ?, ?)""", project_data)
-        self.connection.commit()
+        self.cursor.execute('BEGIN TRANSACTION')
+        for x in project_data:
+            self.cursor.execute("""INSERT INTO Projects VALUES (?, ?, ?, ?, ?, ?)""", x)
+        self.cursor.execute('COMMIT')
 
     def insert_one_skill(self, skill_id, skill_name, experience):
         """Insert one position into Skills table
@@ -159,8 +165,10 @@ class Database:
 
         :param skill_data: skills dataset
         """
-        self.cursor.executemany("""INSERT INTO Skills VALUES (?, ?, ?)""", skill_data)
-        self.connection.commit()
+        self.cursor.execute('BEGIN TRANSACTION')
+        for x in skill_data:
+            self.cursor.execute("""INSERT INTO Skills VALUES (?, ?, ?)""", x)
+        self.cursor.execute('COMMIT')
 
     def insert_one_role(self, role_id, role_name):
         """Insert one position into Roles table
@@ -176,8 +184,10 @@ class Database:
 
         :param role_data: roles dataset
         """
-        self.cursor.executemany("""INSERT INTO Roles VALUES (?, ?)""", role_data)
-        self.connection.commit()
+        self.cursor.execute('BEGIN TRANSACTION')
+        for x in role_data:
+            self.cursor.execute("""INSERT INTO Roles VALUES (?, ?)""", x)
+        self.cursor.execute('COMMIT')
 
     def insert_one_relation(self, employee_id, skill_id):
         """Insert one position into EmployeesSkillsRelations table
@@ -193,5 +203,7 @@ class Database:
 
         :param rel_data: relations dataset
         """
-        self.cursor.executemany("""INSERT INTO EmployeesSkillsRelations VALUES (?, ?)""", rel_data)
-        self.connection.commit()
+        self.cursor.execute('BEGIN TRANSACTION')
+        for x in rel_data:
+            self.cursor.execute("""INSERT INTO EmployeesSkillsRelations VALUES (?, ?)""", x)
+        self.cursor.execute('COMMIT')
