@@ -161,3 +161,5 @@ cython_debug/
 # comment it back out and die in a fire.
 .idea/
 
+# mac files
+.DS_Store
