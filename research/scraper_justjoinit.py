@@ -4,6 +4,8 @@ import re
 import os
 import logging
 from template import data
+from sourced_data.document_db import JobOffersDB
+
 
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)
@@ -11,13 +13,15 @@ logging.getLogger(__name__)
 
 # Configuration variables
 scrapped_offers = 10000
-output_file_path = os.path.join('research/sourced_data/', 'document_db.json')
+output_file_path = os.path.join('sourced_data/','document_db.json')
 
 def main():
     """
     Web scraper made to work with justjoin.it. Scrapes job offers and saves them in JSON format in a specified location.
     To use, execute the script.
     """
+    db = JobOffersDB(output_file_path)
+
     try:
         # Get raw data from the API
         url = "https://justjoin.it/api/offers"
@@ -27,6 +31,7 @@ def main():
         # Extract appropriate information from the raw data based on the structure stored in the template.py file and store it in the list of dictionaries
         data = [{k: item[k] for k in item} for item in raw_data]
 
+        i=0
         # Get the offer descriptions by making additional requests to the API and clean up the HTML tags
         for item in data:
             offer_url = f"https://justjoin.it/api/offers/{item['id']}"
@@ -36,7 +41,7 @@ def main():
        
             # Extract the job offer description from the fetched data
             description = offer_raw_data["body"]
-
+            
             # Remove all HTML tags from the description
             pattern = re.compile('<.*?>')
             result = re.sub(pattern, '', description)
@@ -44,9 +49,12 @@ def main():
             # Add the cleaned description as a new key-value pair to "data"
             item["description"] = result
 
-        # Save data to output file
-        with open(output_file_path, "w") as f:
-            json.dump(data, f)
+            # Inserts the job offer into the database
+            db.insert_job_offer(item) 
+
+             # Logs the number of job offers added
+            i=i+1
+            logging.debug("Scraped " + str(i) + "/" + str(scrapped_offers) + " job offers.")
 
         # Log success
         logging.debug("* "*50)
