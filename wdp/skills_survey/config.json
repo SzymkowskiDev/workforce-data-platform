@@ -1,0 +1,30 @@
+{
+    "output_name": "survey",
+    "output_path": "input_and_output\\uploads",
+
+    "restrictions" : {
+        "uid_length": 8
+    },
+
+    "messages": {
+        "header": "Employee's skills survey.",
+        "ending": "Thanks!",
+        "ans_invalid": "Invalid answer: ",
+        "ans_valid": "Ok!" 
+    },
+
+    "characters": {
+        "br": "├",
+        "bl": "┤",
+        "vl": "│",
+        "sep": "⋮",
+        "hl": "─",
+        "dot": "•",
+        "nw": "╭",
+        "sw": "╰",
+        "ne": "╮",
+        "se": "╯",
+        "out": "<",
+        "in": ">"
+    }
+}
