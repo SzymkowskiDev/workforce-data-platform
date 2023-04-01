@@ -25,7 +25,6 @@ import json
 import csv
 
 Style.setup_colors()
-Style.clear_screen()
 CONFIG = get_config()
 
 
@@ -88,6 +87,7 @@ class Form:
         total_questions_amount = len(self.fields)
         responses = {}
 
+        Style.clear_screen()
         print(Style.form_header(total_questions_amount))
 
         for index, field in enumerate(self.fields):
