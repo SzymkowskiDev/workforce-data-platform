@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+<!--Navbar content -->
+{% block navbar-content %}
+<img src="{% static 'img/favicon.png' %}" alt="logo" style="height: 2em; width: auto;">&nbsp;&nbsp;&nbsp;Employee List
+{% endblock navbar-content %}
+
+
+<!-- Page content-->
+{% block content %}
+<div class="container">
+    <br><br><br>
+
+    <table class="table table-bordered" id="team_staffer" style="text-align: center;">
+            <thead class="table-succes">
+                <tr>
+                    <th style="width: 10%;">First Name</th>
+                    <th style="width: 10%;">Last Name</th>
+                    <th style="width: 16%;">Last Role</th>
+                    <th style="width: 16%;">Preffered Role</th>
+                    <th style="width: 10%;">Salary</th>
+                    <th style="width: 6%;">Joined on</th>
+                    <th style="width: 6%;">Phone number</th>
+                    <th style="width: 14%;">Specializations</th>
+                    <th style="width: 6%;">City</th>
+                    <th style="width: 6%;">Email</th>
+                    
+                </tr>
+            </thead>
+            <!-- Data from backend-->
+            {% for staffer in staffers %}
+            <tr>
+                <td>{{ staffer.first_name }}</td>
+                <td>{{ staffer.last_name }}</td>
+                <td>{{ staffer.last_role }}</td>
+                <td>{{ staffer.preferred_role }}</td>
+                <td>{{ staffer.salary }}</td>
+                <td>{{ staffer.joined_on }}</td>
+                <td>{{ staffer.phone_number}}</td>
+                <td>{{ staffer.specializations }}</td>
+                <td>{{ staffer.city }}</td>
+                <td>{{ staffer.email }}</td>
+                
+            </tr>
+            {% endfor %}
+    </table>
+{% endblock content%}
