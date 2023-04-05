@@ -1,0 +1,4 @@
+experience_level,count_salary_from_pln,mean_salary_from_pln,median_salary_from_pln,min_salary_from_pln,max_salary_from_pln,std_salary_from_pln
+junior,339,7173.705368731564,7000.0,2400.0,21000.0,2737.0106397794234
+mid,2934,14431.964338786638,14000.0,4000.0,35280.0,5105.027925520032
+senior,2965,21672.079116357505,20160.0,7000.0,90000.0,6567.729388173536
