@@ -10,6 +10,7 @@ e.g. what proportion of job offers is for specialization X e.g. Frontend Develop
 """
 
 from faker.config import AVAILABLE_LOCALES
+from wdp.custom_loggers.general import log
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Iterable
@@ -19,7 +20,6 @@ import random
 import json
 import csv
 import os
-
 
 dir_name = os.path.dirname(__file__)
 roles_path = os.path.join(dir_name, "..\\control_panel\\roles.json")
@@ -47,6 +47,7 @@ __default_config__ = {
     "survey_output_name": "survey"
 }
 
+
 @dataclass
 class Config:
     illegal_locales: list[str]
@@ -60,7 +61,7 @@ class Config:
     survey_output_name: str
 
     @staticmethod
-    def parse_conifg() -> "Config":
+    def parse_config() -> "Config":
         """ Read data from config.json and create Config object.
         Values from keys that were not found in file will be set
         with default value from __default_config__ """
@@ -85,11 +86,13 @@ class Config:
             final_config["survey_output_name"]
         )
 
+
 def _get_data_from_json(file_path) -> dict:
     """ Read and return data as dict from file. """
     with open(file_path, "r", encoding="utf-8") as file:
         return json.load(file)
- 
+
+
 def _save_data_to_json(file_path, content):
     """ Save content to json file. """
     if not os.path.exists(file_path):
@@ -98,13 +101,16 @@ def _save_data_to_json(file_path, content):
     with open(file_path, "w", encoding="utf-8") as file:
         json.dump(content, file, indent=4, separators=(',', ': '))
 
+
 def _get_avatar_path_from_job(job) -> str:
     """ Convert job title into path for it's avatar. """
     return f"wdp/control_panel/avatars/{job.lower().replace(' ', '_')}.png"
 
+
 def _readable_datetime(date: datetime, sep="/") -> str:
     """ Convert datetime object into date with format: dd/mm/YYYY """
     return date.strftime(f"%d{sep}%m{sep}%Y")
+
 
 def _timestamp_for_file_name() -> str:
     """ Generate string that contains current date and time in savable version. """
@@ -112,77 +118,86 @@ def _timestamp_for_file_name() -> str:
     return date.strftime("%d_%m_%Y %H_%M_%S")
 
 
-CONFIG = Config.parse_conifg()
+CONFIG = Config.parse_config()
 ROLES = _get_data_from_json(roles_path)['Roles']
 SPECIALIZATIONS = _get_data_from_json(sepcializations_path)
 
+
 class RandomGenerators:
-    """ Contains methods to generate random attributes. 
+    """ Contains methods to generate random attributes.
     Random ranges and other parameters can be modified in config. """
 
+    @staticmethod
     def uid() -> int:
         """ Generate random UID that contains only numbers (non-zero leading) """
         length = CONFIG.uid_length
         uid = str(random.randint(1, 9))
-        for _ in range(length-1):
+        for _ in range(length - 1):
             uid += str(random.randint(0, 9))
         return int(uid)
-    
+
+    @staticmethod
     def salary() -> float:
         """ Generate random salary based on config's values. """
-        min = CONFIG.employee_salary_min
-        max = CONFIG.employee_salary_max 
+        min = int(CONFIG.employee_salary_min)
+        max = int(CONFIG.employee_salary_max)
         return float(f"{random.randint(min, max)}.{random.randint(0, 99)}")
 
-    def join_date(birthdate: datetime) -> datetime:
+    @staticmethod
+    def join_date(birthdate: datetime) -> str:
         """ Generate random comp. join date from range: <birthday + 20 years, now - 1 year> """
         date = datetime(
-            random.randint(birthdate.year + 20, datetime.now().year-1),
+            random.randint(birthdate.year + 20, datetime.now().year - 1),
             random.randint(1, 12),
             random.randint(1, 28)
         )
         return _readable_datetime(date)
 
+    @staticmethod
     def phone_number() -> str:
         """ Generate random phone number starting with +. """
-        number = "+" + "".join([random.randint(1, 9) for _ in range(2)]) + "".join([random.randint(1, 9) for _ in range(CONFIG.employee_phone_number_length)])
+        number = "+" + "".join([random.randint(1, 9) for _ in range(2)]) + "".join(
+            [random.randint(1, 9) for _ in range(CONFIG.employee_phone_number_length)])
         return number
 
+    @staticmethod
     def project_name() -> str:
         """ Generate random project name in english. """
         return Faker("en_US").bs().title()
 
+    @staticmethod
     def specializations(only_single=False) -> list[str] | str:
         """ Generate list of skills's according to random specialization. """
         all_skills = SPECIALIZATIONS[random.choice(list(SPECIALIZATIONS.keys()))]
         if only_single:
             return random.choice(all_skills)
         else:
-            return all_skills 
+            return all_skills
 
 
 # --- EMPLOYEES --- #
-
 @dataclass
 class _EmployeeBase:
-    """ Contains attributes that are base for other attributes. 
+    """ Contains attributes that are base for other attributes.
     (e.g. "locale" is being used to create: phone, country, city etc.) 
     Rest of employee's data is randomly generated or picked. """
     locale: str
     job: str
     birthdate: datetime
 
+
 class GeneratedEmployee:
 
     @staticmethod
     def generate_pseudo_seed() -> _EmployeeBase:
-        """ Some of parameters depends on one data like (e.g. locale, birthdate...).
+        """ Some parameters depends on one data like (e.g. locale, birthdate...).
         Generate seed that contains: locale, job(from roles), birthdate """
         legal_locales = AVAILABLE_LOCALES
         for loc in CONFIG.illegal_locales:
             if loc in legal_locales:
                 legal_locales.remove(loc)
-        LOGGER.debug(f"Pseudo seed: {len(CONFIG.illegal_locales)} illegal locales found ({len(AVAILABLE_LOCALES)}-{len(CONFIG.illegal_locales)})")
+        LOGGER.debug(
+            f"Pseudo seed: {len(CONFIG.illegal_locales)} illegal locales found ({len(AVAILABLE_LOCALES)}-{len(CONFIG.illegal_locales)})")
 
         locale = random.choice(legal_locales)
         job = random.choice(ROLES)
@@ -191,17 +206,17 @@ class GeneratedEmployee:
         return _EmployeeBase(
             locale, job, birthdate
         )
-    
+
     def __init__(self):
         """ Generate random data and set it as attributes. """
         pseudo_seed = GeneratedEmployee.generate_pseudo_seed()
+        locale_based_faker = Faker(pseudo_seed.locale)
 
         # Random numbers.
         self.uid = RandomGenerators.uid()
         self.salary = RandomGenerators.salary()
 
         # Locale based.
-        locale_based_faker = Faker(pseudo_seed.locale)
         self.phone = RandomGenerators.phone_number()
         self.country = locale_based_faker.current_country()
         self.first_name = locale_based_faker.first_name()
@@ -216,7 +231,7 @@ class GeneratedEmployee:
         # Birthdate based.
         self.joining_date = RandomGenerators.join_date(pseudo_seed.birthdate)
         self.birthdate = _readable_datetime(pseudo_seed.birthdate)
-        
+
         # Rest.
         self.last_role = random.choice(ROLES)
         self.preferred_role = random.choice(ROLES)
@@ -226,6 +241,7 @@ class GeneratedEmployee:
     def as_dict(self) -> dict:
         """ Turn all attributes and their values into dict. """
         return vars(self)
+
 
 @dataclass
 class EmployeesGroup:
@@ -264,7 +280,7 @@ class EmployeesGroup:
 # --- SURVEYS --- #
 
 class GeneratedSurveyResult:
-    
+
     def __init__(self) -> None:
         self.uid = RandomGenerators.uid()
         self.specialization = RandomGenerators.specializations(only_single=True)
@@ -272,7 +288,8 @@ class GeneratedSurveyResult:
 
     def as_dict(self) -> dict:
         return vars(self)
-    
+
+
 @dataclass
 class SurveysResultsGroup:
     surveys_results: Iterable[GeneratedSurveyResult]
@@ -304,11 +321,10 @@ class SurveysResultsGroup:
         LOGGER.info(f"Exported {len(self.surveys_results)} surveys results group into: (CSV) {file_name}")
 
 
-
 # --- INTERFACE --- #
-
+@log(message="Generating employees.")
 def generate_employees(amount: int) -> EmployeesGroup:
-    """ Returns EmployeesGroup that contains GeneratedEmployee(s). 
+    """ Returns EmployeesGroup that contains GeneratedEmployee(s).
     Time required to generate one employee: ~0.25s (4 employees/s)
     
     :param amount: Amount of employees to generate.
@@ -331,6 +347,8 @@ def generate_employees(amount: int) -> EmployeesGroup:
     group = [GeneratedEmployee() for _ in range(amount)]
     return EmployeesGroup(group)
 
+
+@log(message="Generating surveys results.")
 def generate_surveys_results(amount: int) -> SurveysResultsGroup:
     """ Return SurveysResultsGroup object that contains GeneratedSurveyResult(s).
     Time required to generate one survey: ~0.0015s (667 results/s)
