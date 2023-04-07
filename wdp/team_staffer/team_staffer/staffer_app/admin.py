@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Staffer #Team
+from .models import Staffer 
 
 
 # Register your models here.

@@ -4,6 +4,10 @@ import re
 import os
 import logging
 from template import data
+from sourced_data.document_db import JobOffersDB
+
+
+
 
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)
@@ -11,13 +15,15 @@ logging.getLogger(__name__)
 
 # Configuration variables
 scrapped_offers = 10000
-output_file_path = os.path.join('research/sourced_data/', 'document_db.json')
+output_file_path = os.path.join('sourced_data/','document_db.json')
 
 def main():
     """
     Web scraper made to work with justjoin.it. Scrapes job offers and saves them in JSON format in a specified location.
     To use, execute the script.
     """
+    db = JobOffersDB(output_file_path)
+
     try:
         # Get raw data from the API
         url = "https://justjoin.it/api/offers"
@@ -26,6 +32,7 @@ def main():
 
         # Extract appropriate information from the raw data based on the structure stored in the template.py file and store it in the list of dictionaries
         data = [{k: item[k] for k in item} for item in raw_data]
+        
 
         # Get the offer descriptions by making additional requests to the API and clean up the HTML tags
         for item in data:
