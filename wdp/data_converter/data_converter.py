@@ -196,10 +196,10 @@ class QueueConverter(threading.Thread):
                 if path is None:
                     break
             except Empty:
-                logger.debug('Queue is empty. Sleeping %d (s)...', self.interval)
-                time.sleep(self.interval)
+                logger.debug('Queue is empty, no action taken.')
             else:
                 jsonify(path, allow_directory=False)
+            time.sleep(self.interval)
 
     def stop(self):
         self.queue.put(None)
