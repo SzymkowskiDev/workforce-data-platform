@@ -1,7 +1,7 @@
 🔗 [Kanban board](https://github.com/users/SzymkowskiDev/projects/8/views/1)
 
 # Workforce Data Platform
-TODO: Context and product showcase
+Data management system build for storage and processing of master data of an IT business.
 
 ## 🏛️ Architecture
 ![architecture](https://github.com/SzymkowskiDev/workforce-data-platform/blob/master/media/diagram2i.PNG?raw=true)
@@ -11,57 +11,33 @@ TODO: Description.
 
 ## 📅 Development schedule
 
-11/03/2023 - Introductory Meeting and start of Sprint 1:
+- 11/03/2023 - Introductory Meeting and start of Sprint 1:
+- 25/03/2023 - Sprint Review 1 and start of Sprint 2:
+- 15/04/2023 - Sprint 2 review and Demo Day
 
-**Version 0.5.0**
+**Version 1.0**
 
-- [ ] Data Science Research
-- [ ] database
-- [ ] data_generator
-- [ ] query_framework
-- [ ] data_converter
+- [X] Data Science Research
+- [X] database
+- [X] data_generator
+- [X] query_framework
+- [X] data_converter
 - [ ] schema_validator
-- [ ] custom_loggers (debugger)
-
-25/03/2023 - Sprint Review 1 and start of Sprint 2:
-
-**Version 1.0.0**
-- [ ] `placeholder for feature suggested by data science research`
-- [ ] team_staffer
-- [ ] skills_survey
-- [ ] employee_advisor
-- [ ] custom_loggers (profiler & auditor)
-
-15/05/2023 - Demo Day
-
-## 🔗 Related Links
-* Kanban board [Workforce Data Platform project](https://github.com/users/SzymkowskiDev/projects/8/views/1)
-* Medium Article [Group project — “Workforce Data Platform”](https://medium.com/hqw-program/group-project-workforce-data-platform-7781592c3626)
+- [X] custom_loggers (debugger & profiler)
+- [ ] ~~`placeholder for feature suggested by data science research`~~
+- [X] team_staffer
+- [X] skills_survey
+- [ ] ~~employee_advisor~~
+- [X] custom_loggers (auditor)
 
 ## 👨‍💻 Contributing
-TODO: list team members
-
-## 📖 Documentation
-
-### How to use query framework?
-TODO: Each component to be documented
-
-**Example 1. function 1**
-
-Description of the example.
-```python
-CODE GOES HERE
-```
-
-### How to use data generator?
-TODO: Each component to be documented
-
-**Example 1. function 1**
-
-Description of the example.
-```python
-CODE GOES HERE
-```
+- `data_converter`, `schema_validator` and Python lessons: [bswck](https://github.com/bswck)
+- `custom_loggers`: [tomekkurzydlak](https://github.com/tomekkurzydlak)
+- `relational database`: [zdziebkowski](https://github.com/zdziebkowski)
+- `web scrapers` and `team_staffer`: [Pawelpaprzycki](https://github.com/Pawelpaprzycki)
+- `random_data_generator` and `skills_survey`: [gental-py](https://github.com/gental-py)
+- `document_db` and `dataframe` [tomand007](https://github.com/tomand007)
+- Project management, architecture and `data_analysis`: [SzymkowskiDev](https://github.com/SzymkowskiDev)
 
 ![logo](https://github.com/SzymkowskiDev/workforce-data-platform/blob/master/media/logo.PNG?raw=true)
 
