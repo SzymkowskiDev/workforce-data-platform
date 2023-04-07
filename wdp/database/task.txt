@@ -3,15 +3,15 @@ As a database engineer you are tasked with all the work related to the developem
 
 
 ## Learning outcomes
-[ ]     Database design and DDL (SQL data definition language)
-[ ]     Entity Relationship Diagram (save it as PNG in media dir)
-[ ]     Sanitized SQL queries
-[ ]     Making connection to database
+[x]     Database design and DDL (SQL data definition language)
+[x]     Entity Relationship Diagram (save it as PNG in media dir)
+[x]     Sanitized SQL queries
+[x]     Making connection to database
 [ ]     Cryptography (hash functions etc.)
 
 ## Challanges
-[ ]     Create database design that follows best practices and meets business needs
-[ ]     Create query functions that are sql-injection safe
-[ ]     Query functions must be robust, general (dynamic identifiers and literals) purpose and well documented
+[x]     Create database design that follows best practices and meets business needs
+[x]     Create query functions that are sql-injection safe
+[x]     Query functions must be robust, general (dynamic identifiers and literals) purpose and well documented
 [ ]     Database connections must be optimized
 [ ]     Emplyee salaries are sensitive and should be encrypted
