@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Logo -->
+    <link href= {% static "img/logo.png" %} rel="shortcut icon">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!--   Static CSS -->
+    <link href= {% static 'css/style.css' %} rel="stylesheet">
+
+    <!-- Datatables CSS-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <title>WORKFORCE-DATA-PLATFORM</title>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="col-sm">
+                <a class="navbar-brand flex-grow-1" style="text-align: center; color: #fff; margin-left: 10px;">
+                    {% block navbar-content %}{% endblock navbar-content %}
+                </a>
+            </div>
+            <!-- Create a input outside -->
+            </nav>
+        </header>
+    
+        <!-- Block content (ROOT) ===== -->
+        {% block content %} {% endblock content%}
+
+    </div> <!-- END //wrapper -->
+
+    <footer class="bg-dark text-center text-lg-start" id="footer" style="color: #fff;">
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">&copy: {% now "Y" %} Copyright:
+            <a class="text-light" href="#" style="text-decoration: none;">
+                <span style="color: greenyellow;">WORKFORCE-DATA-PLATFORM</span>
+            </a>
+        </div>  
+    </footer>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+    <!-- Jquerry -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <!-- Datatables JS-->
+    <script src='https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js'></script>
+
+    <!-- Datatables script-->
+    <script>
+        $(document).ready(function () {
+            $('#team_staffer thead tr')
+                .clone(true)
+                .addClass('filters')
+                .appendTo('#team_staffer thead');
+        
+            var table = $('#team_staffer').DataTable({
+        
+            paging: true,
+            pageLength: 10,
+            lengthChange: true,
+            autoWidth: false,
+            searching: true,
+            bInfo: true,
+            bSort: true,
+            initComplete: function(){
+                var api = this.api();
+
+                //Set the comulns you with filtering
+                api
+                    .columns([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+                    .eq(0)
+                    .each(function(colIdx){
+                        var cell = $('.filters th').eq(
+                            $(api.column(colIdx).header()).index()
+                        );     
+                        var title = $(cell).text();
+                        $(cell).html('<input type="text" placeholder="' + title + '"/>');
+                    
+                        $(
+                            'input',
+                            $('.filters th').eq($(api.column(colIdx).header()).index())
+                        )
+                        .off('keyip change')
+                        .on('keyup change', function(e){
+                            e.stopPropagation();
+                        
+                            $(this).attr('title', $(this).val());
+                            var regexr = '({search})';
+                        
+                            var cursorPosition = this.selectionStart;
+
+                            api
+                                .column(colIdx)
+                                .search(
+                                    this.value != ''
+                                        ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                        : '',
+                                    this.value !='',
+                                    this.value ==''
+                                )
+                            .draw();
+
+                        $(this)
+                            .focus()[0]
+                            .setSelectionRange(cursorPosition, cursorPosition);
+                        });
+                    });
+                }
+            })
+        })
+    </script>
+
+</body>
+</html>
+

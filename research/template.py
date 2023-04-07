@@ -13,5 +13,5 @@ data = {
     "employment_types": "",
     "skills": "",
     "remote": "",
-    "multilocation": ""
+    "multilocation": "",
 }

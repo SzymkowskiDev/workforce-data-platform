@@ -30,6 +30,7 @@ def main():
 
         # Extract appropriate information from the raw data based on the structure stored in the template.py file and store it in the list of dictionaries
         data = [{k: item[k] for k in item} for item in raw_data]
+        
 
         i=0
         # Get the offer descriptions by making additional requests to the API and clean up the HTML tags
