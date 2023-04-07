@@ -87,7 +87,7 @@ def convert_data(
     if ch != MAGIC_EXCEL:
         arr = buf.read()
         string = arr.decode(encoding)
-        if (ch[0] if ch else 0) in b'{[':
+        if ch and ch[0] in b'{[':
             data = read_json(string)
         else:
             data = read_csv(string)
