@@ -1,3 +1,15 @@
+"""
+wdp.data_converter
+~~~~~~~~~~~~~~~~~~
+(C) bswck 2023
+
+This module contains the functions to convert data from CSV, Excel and JSON format to JSON.
+
+To convert a file (stream), use the :function:`convert_file()` function (pass in a file name or the stream).
+To convert all files in a directory, optionally recursively, use the :function:`jsonify()` function and pass in a path.
+To create a background thread to convert files with a given interval, use the :function:`directory_watcher()` function.
+"""
+
 import functools
 import io
 import json
@@ -241,7 +253,5 @@ def directory_converter(
 
 
 if __name__ == '__main__':
-    # import doctest
-    # doctest.testmod()
     conv = directory_converter()
     conv.start()
