@@ -12,11 +12,7 @@ from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 
 
-# IMPORT DATAFRAMES
-# data = pd.read_csv(path)
-
-
-# APP SATRT
+# APP START
 app = Dash(
     __name__,
     title="Employee Advisor",
@@ -30,7 +26,29 @@ app = Dash(
 )
 
 
-# TAB 1: Career Standing
+# TAB 1: Career Standing ##############################################################################
+
+# Get user data
+
+
+# User selection
+
+
+# Visualise user personal data: avatar, name, email, phone, birthday, city
+
+
+# City data
+
+
+# Salary data
+
+
+# Field-related info
+
+
+# Skills data
+
+
 # App callbacks go here
 # @app.callback(Output("sankey-legit-location", "figure"), Input("sankey-input", "value"))
 
