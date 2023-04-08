@@ -19,7 +19,7 @@ class Database:
         self.connection.close()
 
     def select(self, table, condition, value):
-        """Select all from tabel where condition = value
+        """Select all from table where condition = value
 
         :param table: table name
         :param condition: column name for where condition
@@ -207,3 +207,16 @@ class Database:
         for x in rel_data:
             self.cursor.execute("""INSERT INTO EmployeesSkillsRelations VALUES (?, ?)""", x)
         self.cursor.execute('COMMIT')
+
+    def select_all(self, table):
+        """Select all from table
+
+        :param table: table name
+        :return: select results
+        """
+
+        if table not in valid_table:
+            raise ValueError('Wrong condition')
+        self.cursor.execute(f"""SELECT * FROM {table}""")
+        result = self.cursor.fetchall()
+        return print(result)
