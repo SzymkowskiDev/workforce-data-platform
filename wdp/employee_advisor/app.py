@@ -4,8 +4,8 @@ This script is the entry point of the dashboard. To launch it in the browser, ru
     2. The app will launch in your web browser at the address http://127.0.0.1:8050/
 """
 
-from src.tabs.tab1_content import tab1_content
-from src.tabs.tab2_content import tab2_content
+from tabs.tab1_content import tab1_content
+from tabs.tab2_content import tab2_content
 
 from dash import Dash, html, Input, Output, dcc
 from dash.dependencies import Input, Output
