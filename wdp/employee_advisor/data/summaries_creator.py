@@ -1,14 +1,12 @@
 import pandas as pd
 from wdp.utilities import app_source_path
 from IPython.display import display
-from numpy import NaN, quantile
-
-
-pd.set_option("display.max_columns", 23)
+from numpy import NaN, fmod, quantile
 
 
 data_path = app_source_path() / 'employee_advisor' / 'data'
 data = pd.read_csv(data_path / 'job_offers.csv')
+
 
 currencies = {
     NaN: 1,
@@ -37,14 +35,24 @@ def stats_for_group(groupname):
 def stats_for_skills():
     skills = data.columns[22: -10]
     skills_data = data[list(skills) + ['midpoints']]
- 
+    melted = skills_data.melt(id_vars='midpoints', var_name='skill')
+    filtered = melted[melted['value'] == 1]
+    stats = filtered.groupby('skill')['midpoints'].aggregate(
+        ['median', 'mean', 'quantile', 'count', 'min', 'max', 'std',
+         ('quantile10', lambda series: quantile(series, 0.1)),
+         ('quantile20', lambda series: quantile(series, 0.2)),
+         ('quantile30', lambda series: quantile(series, 0.3))]
+    )
+    return stats
+
+
 def summaries():
-    stats_for_group('company_name').to_csv(data_path / "company_summary.csv", index=False)
-    stats_for_group('marker_icon').to_csv(data_path / "marker_icon_summary", index=False)
-    stats_for_group('experience_level').to_csv(data_path / "experience_level_summary.csv", index=False)
-    stats_for_group('city').to_csv(data_path / "city_summary.csv", index=False)
+    stats_for_group('company_name').to_csv(data_path / "company_summary.csv")
+    stats_for_group('marker_icon').to_csv(data_path / "marker_icon_summary.csv")
+    stats_for_group('experience_level').to_csv(data_path / "experience_level_summary.csv")
+    stats_for_group('city').to_csv(data_path / "city_summary.csv")
+    stats_for_skills().to_csv(data_path / "skills_summary.csv")
 
 
 if __name__ == '__main__':
-    # stats_for_skills()
     summaries()
