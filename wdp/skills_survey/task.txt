@@ -4,10 +4,10 @@ The app has to generate a csv file dropped to input_and_output/uploads directory
 
 
 ## Learning outcomes
-[ ]     Developing a command line application
-[ ]     csv module
-[ ]     Using json to configure the behaviour of an application
+[x]     Developing a command line application
+[x]     csv module
+[x]     Using json to configure the behaviour of an application
 
 ## Challanges
-[ ]     Create a command line interface for surveys that will ask for specialization, skills and months of experience
-[ ]     Make the application's settings configurable from json file
+[x]     Create a command line interface for surveys that will ask for specialization, skills and months of experience
+[x]     Make the application's settings configurable from json file
