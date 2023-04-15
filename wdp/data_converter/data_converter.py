@@ -3,436 +3,255 @@ wdp.data_converter
 ~~~~~~~~~~~~~~~~~~
 (C) bswck 2023
 
-Parallel data converter from CSV/XLSX to JSON.
-Idempotent for the JSON format, but JSON files are recreated anyway to guarantee its compatibility
-with the JSON format.
+This module contains the functions to convert data from CSV, Excel and JSON format to JSON.
 
-This module provides functions to convert CSV/XLSX files to JSON in parallel.
-It also provides a class DirectoryWatcher to watch a directory for new files and convert them
-to JSON in parallel in a background thread.
-
-Example usage of programmatical conversion:
-    >>> from wdp import data_converter
-
-    >>> def callback(filename, data):
-    ...     print(f'Converted {filename} to JSON')
-
-    >>> data_converter.jsonify_directory(
-    ...     path='path/to/directory',
-    ...     callback=callback,
-    ...     executor_factory=data_converter.EXECUTOR_FACTORIES['threading'],
-    ...     encoding='utf-8',
-    ...     recursive=False,
-    ... )
-
-Example usage of directory watcher:
-    >>> from wdp import data_converter
-
-    >>> watcher = data_converter.create_watcher(
-    ...     callback=callback,
-    ...     mode='multiprocessing',  # or 'threading' or 'sync', defaults to 'threading'
-    ...     encoding='utf-8',
-    ...     recursive=True,
-    ... )
-    >>> watcher.join()
-
-Thread safety:
-    Just don't run this module in multiple processes. It is not fully thread-safe.
+To convert a file (stream), use the :function:`convert_file()` function (pass in a file name or the stream).
+To convert all files in a directory, optionally recursively, use the :function:`jsonify()` function and pass in a path.
+To create a background thread to convert files with a given interval, use the :function:`directory_watcher()` function.
 """
 
-from __future__ import annotations
-import concurrent.futures
-import csv
 import functools
 import io
+import json
 import locale
 import logging
 import os
-import sys
+import pathlib
 import threading
 import time
 import typing
+from typing import Any, SupportsFloat
+from queue import Queue, Empty
 
 import pandas as pd
+import csv
 
 from wdp.utilities import app_path
 
-if typing.TYPE_CHECKING:
-    from typing import Any, Callable, Literal, SupportsFloat
 
-
-__all__ = (
-    'DataConversionError',
-    'DEFAULT_SOURCE_DIRECTORY',
-    'DEFAULT_TARGET_DIRECTORY',
-    'EXECUTOR_FACTORIES',
-    'jsonify_directory',
-    'jsonify_file',
-    'DirectoryWatcher',
-    'create_watcher',
+MAGIC_EXCEL: bytes = b'PK'
+DEFAULT_ENCODING: str = os.getenv('DATA_ENCODING', locale.getpreferredencoding())
+DATA_SOURCE_DIRECTORY: pathlib.Path = pathlib.Path(
+    os.getenv('DATA_SOURCE_DIRECTORY', app_path('input_and_output/uploads/'))
 )
-
+DATA_TARGET_DIRECTORY: pathlib.Path = pathlib.Path(
+    os.getenv('DATA_TARGET_DIRECTORY', app_path('input_and_output/converted/'))
+)
 
 logger = logging.getLogger(__name__)
-
-try:
-    import orjson as json
-
-    logger.info('using orjson instead of json')
-except ImportError:
-    import json
-
-    logger.info('orjson unavailable, using json')
+_logger_exception_once = functools.lru_cache(logger.exception)
 
 
-_PathLike = os.PathLike | str
+class CorruptFileError(Exception):
+    """Exception raised for corrupt files."""
 
-_NoFutureReturnT = typing.TypeVar('_NoFutureReturnT')
+    @classmethod
+    def reraise(cls, *exceptions) -> typing.Callable:
+        """Reraise selected exception as CorruptFileError."""
+        exceptions = exceptions or Exception
 
-DEFAULT_SOURCE_DIRECTORY: _PathLike = os.getenv(
-    'IO_SOURCE_DIRECTORY', app_path('input_and_output/uploads')
-)
-DEFAULT_TARGET_DIRECTORY: _PathLike = os.getenv(
-    'IO_TARGET_DIRECTORY', app_path('input_and_output/converted')
-)
-ERROR_LOG_PATH = os.getenv(
-    'IO_ERROR_LOG_PATH',
-    app_path('input_and_output/error_logs/data_converter.log'),
-)
+        def decorator(func):
+            def wrapper(*args, **kwargs):
+                try:
+                    return func(*args, **kwargs)
+                except exceptions as e:
+                    raise cls(e) from e
+            return wrapper
 
-
-EXECUTOR_FACTORIES: dict[str, type[concurrent.futures.Executor]] = {
-    'threading': concurrent.futures.ThreadPoolExecutor,
-    'multiprocessing': concurrent.futures.ProcessPoolExecutor,
-}
+        return decorator
 
 
-class _NoFuture(typing.Generic[_NoFutureReturnT]):
-    """Internal helper for synchronous execution."""
-
-    def __init__(
-        self, fn: Callable[[...], _NoFutureReturnT], args: tuple, kwargs: dict
-    ):
-        self.__fn = fn
-        self.__args = args
-        self.__kwargs = kwargs
-
-    def result(self) -> _NoFutureReturnT:
-        return self.__fn(*self.__args, **self.__kwargs)
-
-
-class _NoExecutor(concurrent.futures.Executor):
-    """Internal helper for synchronous execution."""
-
-    def submit(
-        self, fn: Callable[[...], _NoFutureReturnT], /, *args: Any, **kwargs: Any
-    ) -> _NoFuture[_NoFutureReturnT]:
-        return _NoFuture[_NoFutureReturnT](fn, args, kwargs)
+def convert_file(
+        filename_or_buf: os.PathLike | str | typing.BinaryIO,
+        encoding: str = DEFAULT_ENCODING,
+) -> str:
+    """Convert file's contents into JSON format and return it."""
+    if isinstance(filename_or_buf, os.PathLike | str):
+        assert os.path.isfile(filename_or_buf)
+        if not os.path.isabs(filename_or_buf):
+            filename_or_buf = DATA_SOURCE_DIRECTORY / filename_or_buf
+        data = io.BytesIO(pathlib.Path(filename_or_buf).read_bytes())
+    else:
+        data = filename_or_buf
+    return convert_data(data, encoding)
 
 
-EXECUTOR_FACTORIES['sync'] = _NoExecutor
+@CorruptFileError.reraise(UnicodeDecodeError)
+def convert_data(
+        buf: typing.BinaryIO,
+        encoding: str = DEFAULT_ENCODING,
+) -> str:
+    """Read a byte buffer and return the data in the JSON format."""
+    ch = buf.read(2)
+    buf.seek(0)
+    if ch != MAGIC_EXCEL:
+        arr = buf.read()
+        string = arr.decode(encoding)
+        if ch and ch[0] in b'{[':
+            data = read_json(string)
+        else:
+            data = read_csv(string)
+    else:
+        data = read_xlsx(buf.read())
+    json_data = dump_data(data)
+    return json_data
 
 
-class DataConversionError(Exception):
-    """Raised when data conversion fails."""
+@CorruptFileError.reraise(csv.Error, pd.errors.ParserError)
+def read_csv(data: str) -> str:
+    """Reads a CSV file."""
+    sniffer = csv.Sniffer()
+    dialect = sniffer.sniff(data)
+    return pd.read_csv(io.StringIO(data), dialect=dialect)  # type: ignore
+
+
+@CorruptFileError.reraise(json.JSONDecodeError)
+def read_json(data: str) -> dict:
+    """Reads a JSON file."""
+    return json.loads(data)
+
+
+@CorruptFileError.reraise(pd.errors.ParserError)
+def read_xlsx(data: bytes) -> pd.DataFrame:
+    """Reads an Excel file."""
+    return pd.read_excel(io.BytesIO(data))
 
 
 @functools.singledispatch
-def _jsonify(data: Any) -> Any:
-    """Convert data to JSON."""
+def dump_data(_data_object: Any) -> str:
+    """Formats a string."""
+    raise NotImplementedError
+
+
+@dump_data.register
+def format_dict(data: dict) -> str:
+    """Formats a JSON string."""
     return json.dumps(data)
 
 
-@_jsonify.register
-def _jsonify_df(data: pd.DataFrame) -> str:
-    """Convert a DataFrame to JSON."""
-    return pd.io.json.dumps(
-        data.to_dict(orient='list'),
-        indent=2,
-    )
-
-
-_OnErrorCallbackT = typing.Callable[[io.BufferedReader], typing.Any]
-
-
-def _try_read_json(
-    fp: io.BufferedReader, encoding: str, on_error: _OnErrorCallbackT
-) -> dict:
-    """Try to read JSON from a file pointer (stream)."""
-    try:
-        data = json.loads(fp.read().decode(encoding)).dumps()
-    except ValueError:
-        data = on_error(fp, encoding)
-    return data
-
-
-def _try_read_xlsx(
-    fp: io.BufferedReader,
-    encoding: str,
-    on_error: _OnErrorCallbackT,
-) -> pd.DataFrame:
-    """Try to read XLSX from a file pointer (stream)."""
-    try:
-        data = pd.read_excel(fp)
-    except Exception:
-        data = on_error(fp, encoding)
-    return data
-
-
-def _try_read_csv(
-    fp: io.BufferedReader, encoding: str, on_error: _OnErrorCallbackT
-) -> pd.DataFrame:
-    """Try to read CSV from a file pointer (stream)."""
-    buf = fp.read()
-    try:
-        data = buf.decode(encoding)
-    except ValueError:
-        # probably some weird binary data file, check for xlsx
-        data = None
-    if data is None:
-        fp.seek(0)
-        return _try_read_xlsx(fp, encoding, on_error)
-    sniffer = csv.Sniffer()
-    try:
-        dialect = sniffer.sniff(data)
-    except csv.Error:
-        return on_error(fp, encoding)
-    return pd.read_csv(io.StringIO(data), dialect=dialect)
-
-
-def _on_error(fp: io.BufferedReader, encoding: str) -> None:
-    """Raise an error when data format could not be guessed."""
-    raise DataConversionError('could not guess data format')
-
-
-_JSON_TOKENS: bytes = b'{['
-
-
-def jsonify_file(
-    path: _PathLike | io.BytesIO,
-    encoding: str | None = None,
-    on_error: Callable = _on_error,
-) -> str | None:
-    """Convert file contents into a JSON string."""
-    if encoding is None:
-        encoding = locale.getpreferredencoding()
-    data = None
-    if isinstance(path, _PathLike):
-        logger.info('Converting file %s to JSON', path)
-        try:
-            fp = open(path, 'rb')  # pylint: disable=R1732
-        except FileNotFoundError as exc:
-            raise DataConversionError(f'file not found: {path}') from exc
-    else:
-        logger.info('Converting file stream to JSON')
-        fp = path
-    try:
-        ch = None
-        try:
-            while not ch:
-                ch = fp.read(1)
-                if ch == b"":
-                    break
-                ch = ch.strip()
-        except ValueError:
-            pass
-        fp.seek(0)
-        if ch and ch in _JSON_TOKENS:
-            logger.info('File %s is likely a JSON', path)
-            data = _try_read_json(
-                fp,
-                encoding=encoding,
-                on_error=lambda fp, encoding: _try_read_csv(
-                    fp, encoding=encoding, on_error=on_error
-                ),
-            )
-        else:
-            logger.info('File %s is likely a CSV', path)
-            data = _try_read_csv(fp, encoding=encoding, on_error=on_error)
-        logger.info('File %s has been converted to JSON', path)
-    except Exception as exc:
-        logger.critical('File %s could not be converted to JSON', path)
-        msg = f'{path} ({exc})'
-        raise DataConversionError(msg) from exc
-    finally:
-        logger.info('Closing file %s', path)
-        fp.close()
-    return _jsonify(data)
-
-
-_CallbackT = typing.Callable[[dict[str, typing.Any]], typing.Any]
-
-
-_critical_once = functools.lru_cache(logger.critical)
-
-
-def default_error_handler(filename: _PathLike):
-    """Log errors to a file. LRU cache to avoid duplicate logging."""
-    exc, _, _ = sys.exc_info()
-    with open(ERROR_LOG_PATH, 'a', encoding=locale.getpreferredencoding()) as log:
-        handler, level = logging.StreamHandler(log), logger.getEffectiveLevel()
-        logger.addHandler(handler)
-        logger.setLevel(logging.CRITICAL)
-        _critical_once(f'Error processing {filename}: {exc}', exc_info=True)
-        logger.setLevel(level)
-        logger.removeHandler(handler)
+@dump_data.register
+def format_dataframe(data: pd.DataFrame) -> str:
+    """Formats a JSON string."""
+    return pd.io.json.dumps(data.to_dict(orient='list'), indent=2)
 
 
 def jsonify_directory(
-    path: _PathLike,
-    callback: _CallbackT,
-    executor_factory: Callable[[], concurrent.futures.Executor],
-    encoding: str | None = None,
-    recursive: bool = True,
-    error_handler=default_error_handler,
-):
-    """Convert all files in a directory into JSON strings."""
-    logger.info(
-        'Handling files from %s%s...', path, ' recursively' if recursive else ''
-    )
-    futs = {}
-    for filename in filter(
-        lambda filename: not filename.startswith('.'), os.listdir(path)
-    ):
-        item_path = os.path.join(path, filename)
-        with executor_factory() as executor:
-            if os.path.isfile(item_path):
-                futs[item_path] = executor.submit(
-                    jsonify_file, path=item_path, encoding=encoding
-                )
-            elif recursive:
-                futs[item_path] = executor.submit(
-                    jsonify_directory,
-                    encoding=encoding,
-                    path=item_path,
-                    callback=callback,
-                    recursive=recursive,
-                    executor_factory=executor_factory,
-                )
+        directory: os.PathLike | str,
+        encoding: str = DEFAULT_ENCODING,
+        recursive: bool = False,
+) -> None:
+    """Walks through a directory and converts all files to JSON."""
+    if not os.path.isabs(directory):
+        directory = DATA_SOURCE_DIRECTORY / directory
+    for root, _, files in os.walk(directory):
+        if not recursive:
+            if root != directory:
                 continue
-            else:
-                logger.info(
-                    'Recursive processing disabled, skipping directory %s', path
-                )
-                continue
-    ret = []
-    for filename, fut in futs.items():
-        try:
-            result = fut.result()
-        except DataConversionError:
-            error_handler(filename)
-            continue
-        callback(filename, result)
-        ret.append(result)
-    return ret
+        for file in files:
+            jsonify(os.path.join(root, file), encoding)
 
 
-class DirectoryWatcher(threading.Thread):
-    _mutex = threading.RLock()
-    _registry = {}
+def jsonify(
+        path: os.PathLike | str,
+        encoding: str = DEFAULT_ENCODING,
+        recursive: bool = False,
+        allow_directory: bool = True,
+) -> None:
+    """Converts a file to JSON."""
+    if not os.path.isabs(path):
+        path = DATA_SOURCE_DIRECTORY / path
+    path = pathlib.Path(path)
+    if path.is_file():
+        json_data = None
+        with open(path, 'rb') as file:
+            try:
+                json_data = convert_file(file, encoding)
+            except CorruptFileError:
+                _logger_exception_once('Error processing file %s', path)
+        if json_data is not None:
+            new_path = f'{str(path).replace(str(DATA_SOURCE_DIRECTORY), str(DATA_TARGET_DIRECTORY))}.json'
+            with open(new_path, 'wb') as file:
+                file.write(json_data.encode(encoding))
+    else:
+        if not allow_directory:
+            raise ValueError(f'{path!r} is not a file.')
+        jsonify_directory(path, encoding, recursive=recursive)
 
+
+class QueueConverter(threading.Thread):
+    """Creates a thread for converting files to JSON."""
     def __init__(
-        self,
-        item_callback: _CallbackT,
-        source_directory: _PathLike,
-        /,
-        *,
-        encoding: str = os.getenv('IO_ENCODING'),
-        callback: Callable[[list[Any]], Any] | None = None,
-        jsonifier: Callable[[_PathLike, _CallbackT, ...], list] = jsonify_directory,
-        interval: SupportsFloat = 5.0,
-        recursive: bool = True,
-        executor_factory: concurrent.futures.Executor = concurrent.futures.ThreadPoolExecutor,
+            self,
+            queue: Queue | None = None,
+            interval: SupportsFloat = 1,
     ):
         super().__init__()
-        self.item_callback = item_callback
-        self.encoding = encoding
-        self.jsonify_directory = jsonifier
-        self.interval = interval
-        self.callback = callback
-        self.watch_directory = source_directory
-        self.recursive = recursive
-        self.executor_factory = executor_factory
-
-    def __new__(cls, _, source_directory: _PathLike, /, **_kwargs):
-        """Use singleton pattern to avoid multiple watchers for the same directory."""
-        normalized_path = os.path.normpath(source_directory)
-        if cls._registry.get(normalized_path):
-            raise ValueError(f'watcher for {normalized_path} already exists')
-        watcher = super().__new__(cls)
-        cls._registry[normalized_path] = watcher
-        return watcher
-
-    def __del__(self):
-        """Remove the watcher from the registry."""
-        normalized_path = os.path.normpath(self.watch_directory)
-        self._registry.pop(normalized_path, None)
+        self.queue = queue or Queue()
+        self.interval = float(interval)
 
     def run(self):
-        """Watch the directory for changes and convert files to JSON."""
-        directory = self.watch_directory
-        logger.info('Watching directory %s', directory)
         while True:
-            with self._mutex:
-                data = self.jsonify_directory(
-                    directory,
-                    callback=self.item_callback,
-                    encoding=self.encoding,
-                    recursive=self.recursive,
-                    executor_factory=self.executor_factory,
-                )
-            if self.callback:
-                self.callback(data)
+            try:
+                path = self.queue.get(block=False)
+                if path is None:
+                    break
+            except Empty:
+                logger.debug('Queue is empty, no action taken.')
+            else:
+                jsonify(path, allow_directory=False)
             time.sleep(self.interval)
 
-
-def save_converted_json_file(
-    target_directory: _PathLike,
-    source_directory: _PathLike,
-    filename: _PathLike,
-    data: _PathLike,
-) -> None:
-    """Save the JSON string to a file."""
-    new_filename = os.path.join(
-        os.path.dirname(filename).replace(
-            str(source_directory),
-            str(target_directory)
-        ),
-        os.path.basename(filename),
-    )
-    root_filename, extension = os.path.splitext(new_filename)
-    os.makedirs(os.path.dirname(root_filename), exist_ok=True)
-    target_filename = '.'.join((root_filename, extension.lstrip('.'), 'json'))
-    logger.info('Saving converted file %s to %s', filename, target_filename)
-    with open(target_filename, 'w', encoding=locale.getpreferredencoding()) as fp:
-        fp.write(data)
+    def stop(self):
+        self.queue.put(None)
 
 
-def create_watcher(
-    source_directory: _PathLike,
-    target_directory: _PathLike,
-    mode: Literal['threading', 'multiprocessing', 'sync'] = 'threading',
-    watcher_cls: type[DirectoryWatcher] = DirectoryWatcher,
-    **kwds,
-) -> DirectoryWatcher:
-    """Convenience function to run a directory watcher in a thread."""
-    if mode and not kwds.get('executor_factory'):
-        kwds['executor_factory'] = EXECUTOR_FACTORIES[mode]
-    thread = watcher_cls(
-        functools.partial(save_converted_json_file, target_directory, source_directory),
-        source_directory,
-        **kwds,
-    )
-    return thread
+class FileWatcher(Queue):
+    """Creates a thread for watching a directory."""
+
+    def __init__(
+            self,
+            directory: os.PathLike | str,
+            recursive: bool = False,
+    ):
+        super().__init__()
+        self.queue = set()
+        self.directory = directory
+        self.recursive = recursive
+
+    def _put(self, item):
+        self.queue.add(item)
+
+    def _get(self):
+        return self.queue.pop()
+
+    def update(self):
+        for root, _, files in os.walk(self.directory):
+            if not self.recursive and root != str(self.directory):
+                continue
+            for file in files:
+                path = os.path.join(root, file)
+                if os.path.isfile(path):
+                    super().put(path, block=False)
+
+    def get(self, block: bool = True, timeout: float | None = None):
+        self.update()
+        return super().get(block, timeout)
+
+    def put(self, *args, **kwargs):
+        raise ValueError('Cannot put items into a FileWatcher.')
+
+
+def directory_converter(
+        directory: os.PathLike | str = DATA_SOURCE_DIRECTORY,
+        recursive: bool = False,
+        interval: SupportsFloat = 1,
+) -> QueueConverter:
+    """Creates a thread for watching a directory."""
+    watcher = FileWatcher(directory, recursive)
+    converter = QueueConverter(watcher, interval)
+    return converter
 
 
 if __name__ == '__main__':
-    logger.addHandler(logging.StreamHandler(sys.stderr))
-    logger.setLevel(logging.INFO)
-    watcher_thread = create_watcher(
-        app_path('input_and_output/uploads'),
-        app_path('input_and_output/converted'),
-        mode='sync',
-    )
-    watcher_thread.start()
-    watcher_thread.join()
+    conv = directory_converter()
+    conv.start()
