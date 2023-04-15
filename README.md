@@ -7,7 +7,23 @@ Data management system build for storage and processing of master data of an IT 
 ![architecture](https://github.com/SzymkowskiDev/workforce-data-platform/blob/master/media/diagram2i.PNG?raw=true)
 
 ## 🚀 How to run
-TODO: Description.
+
+### How to run Django app locally (`team_staffer`)
+TODO: Description (HugoN)
+
+
+### How to open Skills survey CLI (`skills_survey`)
+TODO: Description (Gental)
+
+
+### How to run Dash app locally (`employee_advisor`)
+```
+"""
+This script is the entry point of the dashboard. To launch it in the browser, run the following command:
+    1. python wdp/employee_advisor/app.py
+    2. The app will launch in your web browser at the address http://127.0.0.1:8050/
+"""
+```
 
 ## 📅 Development schedule
 
@@ -24,7 +40,7 @@ TODO: Description.
 - [X] data_converter
 - [ ] schema_validator
 - [X] custom_loggers (debugger & profiler)
-- [ ] ~~`placeholder for feature suggested by data science research`~~
+- [X] `placeholder for feature suggested by data science research`
 - [X] team_staffer
 - [X] skills_survey
 - [ ] ~~employee_advisor~~
