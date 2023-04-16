@@ -148,3 +148,9 @@ def generate_default_form() -> Form:
                              [LengthValidator(range(1, 4)), NumberValidator])
 
     return Form([UID_field, SKILL_field, EXPERIENCE_field])
+
+if __name__ == "__main__":
+    form = generate_default_form()
+    form.enquire()
+    form.export_responses()
+    
