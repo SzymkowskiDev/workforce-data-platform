@@ -9,8 +9,9 @@ Data management system build for storage and processing of master data of an IT 
 ## 🚀 How to run
 
 ### How to run Django app locally (`team_staffer`)
-TODO: Description (HugoN)
-
+Start the Django dev server by typing in the terminal:
+1. python manage.py runserver
+2. Open your web browser and go to "http://localhost:8000/".
 
 ### How to open Skills survey CLI (`skills_survey`)
 To enter default form, run:
