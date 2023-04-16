@@ -1,0 +1,1611 @@
+column_name,count
+Java,1166
+SQL,977
+Python,958
+JavaScript,828
+English,811
+AWS,661
+C#,574
+TypeScript,533
+.Net,484
+Linux,453
+React,438
+Node.js,385
+C++,336
+Azure,334
+PHP,308
+Spring,303
+Docker,295
+Git,291
+Agile,285
+Angular,274
+Kubernetes,263
+Spring Boot,261
+JIRA,241
+UML,226
+.NET Core,202
+MySQL,193
+Kotlin,184
+DevOps,174
+HTML,172
+Scrum,171
+REST API,171
+BPMN,166
+HTML5,162
+ReactJS,161
+PostgreSQL,154
+CI/CD,146
+Cloud,139
+C,129
+ASP.NET,119
+Terraform,117
+Test Automation,114
+Communication Skills,114
+Project Management,112
+Testing,111
+CSS,109
+Android,108
+Windows,105
+Django,104
+iOS,103
+Power BI,101
+Oracle,99
+MS SQL,96
+Product Management,93
+React Native,91
+Windows Server,91
+Hibernate,90
+Ruby on Rails,89
+MS Excel,84
+Microservices,82
+ETL,81
+Redux,80
+Powershell,78
+Confluence,78
+API,76
+Figma,74
+REST,74
+Leadership,73
+PL/SQL,73
+Golang,72
+Cybersecurity,71
+Swift,70
+Architecture,70
+Salesforce,69
+GCP,68
+Business Analysis,68
+WordPress,66
+Big Data,66
+Microsoft Azure,64
+Laravel,63
+ITIL,63
+Selenium,63
+UX,62
+Databases,62
+SAP,62
+Flutter,61
+Polish,59
+Postman,59
+CSS3,59
+OOP,57
+Go,57
+Symfony,56
+CRM,55
+Scala,55
+Office 365,55
+Bash,55
+T-SQL,55
+.NET C#,54
+Azure DevOps,53
+Ansible,53
+Analytical Thinking,52
+Amazon AWS,51
+Enterprise Architect,51
+PRINCE2,51
+IT Support,50
+NoSQL,49
+Software Development,49
+Unity,48
+Active Directory,48
+GitLab,48
+Entity Framework,48
+Microsoft,47
+Automotive,46
+Manual Testing,45
+Jenkins,45
+Kafka,45
+Problem Solving,45
+Analiza Biznesowa,44
+ERP,44
+Hyper-V,44
+Data Science,44
+Microsoft Azure Cloud,44
+R,43
+SaaS,43
+Distributed systems,43
+Machine Learning,42
+LAN,42
+IT Security,42
+Snowflake,42
+Vue.js,41
+TDD,41
+ASP.NET Core,41
+Team Leadership,40
+JS,40
+Data,39
+Data modeling,39
+Continuous Integration practices,38
+CI,38
+Java 8,38
+VMware,38
+Management,37
+Java 11,36
+Google Cloud Platform,36
+Helpdesk,35
+CD,35
+Angielski,35
+Adobe Photoshop,35
+AUTOMATIVE,35
+UX Design,35
+PHP 7,34
+Java 8+,34
+Hadoop,34
+Team Management,33
+Autosar,33
+Bazy Danych,33
+Spark,33
+Networks,33
+Power Platform,33
+MongoDB,33
+XML,32
+Oracle SQL,32
+Security,32
+Ruby,31
+TOGAF,31
+SCCM,31
+Google Analytics,31
+Web Applications,30
+QA,30
+Adobe XD,30
+Android SDK,30
+Firewall,30
+Scrum Master,30
+Microsoft Windows,30
+Angular 2+,30
+PHP 8,29
+Elasticsearch,29
+UI,29
+SOA,29
+Groovy,29
+Flask,28
+Analytics,28
+ETL tools,28
+PostreSQL,28
+PrestaShop,27
+SCSS,27
+J2EE,27
+SharePoint,27
+Business Intelligence,26
+Troubleshooting,26
+Computer science,26
+.Net Framework,26
+JUnit,25
+RxJS,25
+Embedded,25
+Airflow,24
+VBA,24
+Analityczne Myślenie,24
+Microsoft Office,24
+Tableau,24
+MS Azure,24
+Vue,24
+Oracle DB,24
+TSQL,24
+Python 3.x,23
+Microsoft 365,23
+Cypress,23
+Amazon Web Services,22
+MS SQL Server,22
+Microsoft Windows Server,22
+SQL Server,22
+Rust,22
+CMS,22
+HIL/SIL testing,21
+AI/ML,21
+JPA,21
+SOAP,21
+Teamwork,21
+Experience in V&V domain (preferably in ADAS),21
+SRE,21
+PHP 7.x,21
+MS Office,21
+Java 11+,21
+PHP 8.X,21
+DBMS,20
+AML,20
+Basic Network,20
+German Business,20
+VPN,20
+AlwaysOn,20
+Postgres,20
+AngularJS,20
+Programming,20
+Python 3,20
+Struts,19
+working with UX teams,19
+ALM,19
+Solution Architect,19
+Continuous Integration,19
+Power Platform solutions,19
+prowadzenie projektów,19
+MR,19
+Continuous Deployment practices,19
+IONOS,19
+Tworzenie oprogramowań,19
+Dataverse,19
+Tekton,19
+Monitoring Tools,19
+Figma/ Sketch/ Axure,19
+Google Cloud,19
+Express Route,19
+data oriented products,19
+Design Thinking,19
+GWT,19
+Test planning,19
+Writing Test Scenarios,19
+NodeJS,19
+SAP HANA,19
+MIRO,19
+SAP FI,19
+STM32,19
+TypeScript / Angular,18
+solve problems,18
+PHPUnit,18
+Maven,18
+Clean Code,18
+RPA,18
+German,18
+analyst,18
+Network Administration,18
+Microservice Architecture,18
+Sketch,18
+SAS,18
+ASP.NET MVC,17
+SAP BO,17
+OpenShift,17
+Windows 10,17
+planning,17
+E-commerce,17
+IBM,17
+IaC,17
+Next.js,17
+TCP/IP,17
+Web 2.0,16
+JRules,16
+Customer Support,16
+ES6+,16
+IBM ODM,16
+Unit Testing,16
+MsSQL,16
+PHP 5,16
+Front-End,16
+Contact with a client,16
+XCode,16
+Kanban,16
+Cloud Computing,16
+GraphQL,16
+redhat,15
+SASS,15
+Visual Studio,15
+UX Research,15
+Apache Spark,15
+Nest.js,15
+Cucumber,15
+Data architecture,14
+Power Automate,14
+MS Windows Server,14
+Embedded Systems,14
+Unix,14
+HTML5 / CSS3,14
+Appium,14
+TypeScript/JavaScript,14
+Cisco,14
+Solid,14
+pytest,14
+DWH,14
+TensorFlow,14
+Spring MVC,13
+SOLID Principles,13
+Apex,13
+Information Security,13
+Analiza Danych,13
+RESTful API,13
+Quality Assurance,13
+.NET 6,13
+Dynamics 365,13
+Backend,13
+Redis,13
+GitHub,13
+TestRail,12
+iOS frameworks,12
+product owner,12
+Team Player,12
+Software Architecture,12
+Express.js,12
+PowerPlatform,12
+MES,12
+Embedded C,12
+Symfony 4,12
+Azure Cloud,12
+C/C++,12
+Webcon,12
+Unreal Engine,12
+ISTQB,12
+RSpec,12
+grasp concepts,12
+Bitbucket,12
+digital projects,12
+DDD,12
+Mobile,12
+Ceph,11
+ANgular 7+,11
+ServiceNow,11
+Serverless,11
+Microsoft Dynamics AX2012,11
+Test Management,11
+Sustainability,11
+matplotlib,11
+Managment,11
+LMS,11
+D365,11
+People Management,11
+Digital marketing,11
+Magento,11
+angular-CLI,11
+MS Dynamics 365,11
+Automated Testing,11
+BPMN2,11
+SAPC,11
+CAD/CAM,11
+WPF,11
+C++ 14,11
+Microsoft Dynamics D365FO,11
+Cloud Technology,11
+Illustrator,11
+SSO,11
+NPM,11
+NLP,11
+CNC,11
+Cloudera,11
+ESG,11
+GCC,11
+analytical skill,11
+organisation,11
+SAP SD,11
+Microsoft Power Platform,11
+analiza systemowa,11
+gRPC,11
+Oracle databases,10
+C++ 11,10
+RHCSA,10
+C++ Embedded,10
+LabView,10
+Appian,10
+FortiGate,10
+.Net 6.0,10
+Low-code/No-code,10
+Payroll,10
+Excel,10
+CSS3 / SASS,10
+Microsoft Dynamics AX 2012,10
+BMPS,10
+PSM,10
+Software Engineering,10
+Presales,10
+ASP .NET Web API,10
+WebScraping,10
+PCI DSS,10
+Technical Knowledge,10
+Analytical skills,10
+ISO 27001,10
+ITIL process,10
+Microsoft Dynamics 365 FO,10
+trouble shooting skills,10
+EMC Networker,10
+Siebel,10
+Veeam,10
+RabbitMQ,10
+Data Engineering,10
+CAN,10
+LAN/WAN,10
+Roblox,10
+RESTful,10
+Storage,10
+DRF,10
+IT Project,10
+Confluent Kafka,10
+PHP7,10
+SAML,10
+AMS,10
+Microsoft Dynamics 365 CE,10
+Scratch,10
+Trino,10
+SDK,10
+Core,10
+HRIS,10
+NAV,10
+O365,10
+Object Oriented Programming,10
+shiny,10
+PHP 7.4,10
+yuii2,10
+Cypres.io,9
+Switch,9
+Sec Ops,9
+CMake,9
+PHP OOP,9
+Azure Data Factory,9
+webMethods,9
+nestJS,9
+Reac,9
+Laravel 9,9
+sod,9
+DNS,9
+Ubuntu,9
+Playwright,9
+Cognos,9
+WAN,9
+BI,9
+Portfolio Management,9
+Microsoft SQL Server,8
+PyTorch,8
+PMP,8
+Magento 2,8
+Network,8
+MariaDB,8
+Linux OS,8
+UI Design,8
+PySpark,8
+Fluent in English,8
+PixiJS,8
+Robot Framework,8
+Delphi,8
+SAFe,8
+Intune,8
+SSIS,7
+Blockchain,7
+Selenium WebDriver,7
+Risk Management,7
+BigQuery,7
+JSON,7
+iOS SDK,7
+Puppet,7
+Network Protocols,7
+OpenCV,7
+Linux networking,7
+"Azure, Active Directory",7
+API Testing,7
+PgMP,7
+x86,7
+AirWatch,7
+ms teams,7
+Web Services,7
+Angular 10,7
+Chef,7
+Xamarin,7
+XenMobile,7
+PowerApps,7
+SAP BASIS,7
+Networking,7
+MECM,6
+.Net 4.5,6
+SQL Profiler,6
+Bootstrap,6
+"Amazon Aurora (mySQL), S3, Parquet, Redshift/Snowflake",6
+Reporting Services,6
+Delivery Management,6
+SSAS,6
+Data analysis,6
+Cobol,6
+X++,6
+IT,6
+DAX,6
+Mobile Development,6
+software testing,6
+ASP.NET Web API,6
+Microsoft Endpoint Configuration Management,6
+Vue/Angular/React,6
+Virtualization,6
+web,6
+AV,6
+Splunk,6
+LUA,6
+System Analysis,6
+MS Windows,6
+TCP,6
+Gradle,6
+ECMAScript 6,6
+Wlan,6
+Azure Services,6
+JS ES6,6
+Windows Administration,6
+"React, Flask",6
+Android Studio,6
+Relacyjne Bazy Danych,6
+Public Clouds,6
+Linux / Unix,6
+2D graphics/algorithms,6
+Microsoft 365 Modern Workplace,5
+SoC,5
+Django Rest Framework,5
+SpringBoot 2* and Spring,5
+JavaScript Framework,5
+User Stories,5
+MuleSoft,5
+Azure Infrastructure,5
+Oracle 19c,5
+Microsoft SQL,5
+Design Patterns,5
+Microsoft Office 365 Online,5
+Node,5
+"Junit with Mockito ,Spock",5
+Client Management,5
+Outlook,5
+Web Hosting,5
+ABAP,5
+Elektronika,5
+Java 17,5
+.net core mvc,5
+Sales Cloud,5
+Dynatrace,5
+Red Hat,5
+SAP EWM,5
+Microsoft Stack,5
+Business Development,5
+Data Management,5
+Dart,5
+SoapUI,5
+EBS,5
+Murex,5
+Apps technologies,5
+DLP,5
+Java SE,5
+Computer Vision,5
+Microsoft Sentinel,5
+Mac OS,5
+HTTP,5
+CICD Automation,5
+Symfony 3,5
+Sencha EXT JS,5
+JavaScript (ES6+),5
+Pandas,5
+OLAP,5
+Angular 4+,5
+AIX,5
+fastapi,5
+SIEM,5
+Unreal Engine 4,5
+other,5
+SVN,5
+Azure Data Lake,5
+UI5,5
+Trading voice,5
+UIKit,5
+RTOS,5
+Power Aps,5
+MS Office 365,5
+Scripting,5
+UiPath,5
+BluePrism,5
+STL,5
+pyth,4
+JBoss,4
+Google Cloud Platform (GCP),4
+Symfony 5,4
+Security testing tools,4
+CI/CD tools,4
+Auto Layout,4
+Slim,4
+Azure Data Services,4
+ABAP OO,4
+ISO 21434,4
+Debian,4
+Cloud deployment – GCP or AWS DevOps skills,4
+Java or Go,4
+data analytics,4
+ISC2,4
+Tosca,4
+Harness,4
+Observability,4
+Endpoint,4
+SDLC,4
+PHP v7.4,4
+Matlab,4
+UI testing,4
+IIS,4
+GKE,4
+Monitoring systems,4
+Elixir,4
+Azure CI/CD,4
+AWS Cloud platform,4
+boost c++,4
+CyberArk,4
+Datawarehousing,4
+Tomcat,4
+HTML4,4
+BigData,4
+GDPR,4
+Cloud Infrastructure,4
+Google Tag Manager,4
+Scada,4
+Pydantic,4
+Apache Kafka,4
+Microsoft Dynamics NAV,4
+monitoring,4
+Adobe CC,4
+PM,4
+MC Azure,4
+ASPICE,4
+product development,4
+Język Niemiecki,4
+NLU,4
+Databricks,4
+ROS,4
+"MVC, WEB API",4
+BMPN,4
+Customer Engagement,4
+AAD,4
+4D,4
+CompTIA,4
+WebService,4
+Power Query,4
+threat modeling,4
+OpenStack,4
+Technology,4
+SAP ERP,4
+Microsoft Sharepoint,4
+Synapse,4
+SAP FI/CO/AA/RE-FX/PS,4
+Mobile Apps,4
+IAM security,4
+Cloud architecture,4
+Cloud Engineering,4
+SAS4GL,4
+ISO26262,4
+Objective-C,4
+JVM,4
+Java EE,4
+React.JS,4
+Deep Learning,4
+Mule,4
+CodeIgniter,4
+SME,4
+Selenide,4
+SwiftUI,4
+SSRS,4
+OBIEE,4
+BY RedPrairie Dispatcher,4
+Blue Coat,4
+MFA,4
+Directory Services,4
+Spring Framework,4
+jeden obiektowy język programowania,4
+Node.js Express,4
+Composer,4
+routing,4
+Dynamics,4
+HotJar,4
+React.js.,4
+Algorithms,4
+Admin,4
+PostgreSQL/MongoDB,3
+Azure AD,3
+AMPScript,3
+GitFLow,3
+Angular 8+,3
+RPG,3
+Public Cloud,3
+Prometheus,3
+Testing Mobile Apps,3
+hybris,3
+Linux/Windows,3
+Zarządzanie incydentami bezpieczeństwa,3
+jakarta,3
+eCommerce,3
+PMI,3
+Relational Databases,3
+Logical Thinking,3
+Cloud Ops,3
+backbone.js,3
+WebLogic,3
+BPM,3
+SAP CO,3
+Azure SQL Server,3
+Asana,3
+C++11,3
+Python (preferred),3
+Angular 7,3
+IBMi MQ,3
+HCM,3
+Linux/Unix OS,3
+Windows OS,3
+data standards,3
+SSL-VPN,3
+B2B Contracts,3
+data centre,3
+MVVM,3
+MCUs,3
+Endpoint Protection (Antivirus),3
+ERWIN,3
+MFC,3
+NIST,3
+Redmine,3
+CSA,3
+ST,3
+Cloud security,3
+CI/CD pipelines / automation suits,3
+JD Edwards,3
+ARM,3
+Basics of algorithmics,3
+scripting skills,3
+QlikView,3
+Sieć LAN,3
+Unreal Engine 5,3
+VLSM,3
+Code Review,3
+Documentum,3
+Web Application Testing,3
+Data Structures,3
+jQuery,3
+experience,3
+C++17,3
+Sentinel,3
+Test Design Techniques,3
+programmatic,3
+Adobe Analytics,3
+MS-Windows,3
+Mantas,3
+IMS,3
+Data procesing,3
+UX/UI,3
+GitLab CI/CD,3
+Amplitude,3
+OpenBabel,3
+UTM,3
+Adobe Experience Manager,3
+Merger&Acquistion,3
+JavaScript/TypeScript,3
+mobx-state-tree,3
+Google Ad Manager (GAM),3
+Matomo,3
+Web API,3
+Splunk Enterprise,3
+SAS 4 GL,3
+VoiP,3
+LWC,3
+"HTML, CSS",3
+Actimize,3
+Sequence diagrams,3
+ERStudio,3
+object-oriented programming,3
+FAIR data principles,3
+Product design,3
+Microsoft Exchange,3
+FinTech,3
+Java 11/17,3
+Web Server,3
+5G,3
+PWA,3
+After Effects,3
+"AWS (EC2, ECS), Buildkite, ELK, Docker",3
+Drupal,3
+Lean,3
+Microsoft Dynamics CRM on Dynamics 365 for Sales (online),3
+Plastic,3
+HTTP protocol,3
+RDKit,3
+Data Warehousing,3
+Sprin,3
+Keras,3
+Conga,3
+Product Ownership,3
+Responsive Web Design,3
+RHEL,3
+Product Designer,3
+Couchbase,3
+Ilustrator,3
+SOC 2,3
+IT Contracts,3
+HTML/CSS,3
+business analyst,2
+virtual machine,2
+GIS,2
+Network Security,2
+Continuous Improvement,2
+AD DS,2
+Pentaho,2
+KYC,2
+Inne systemy ERP,2
+switching,2
+PWA Studio,2
+PL/pgSQL,2
+POS,2
+Oracle Business Intelligence,2
+z/os,2
+WinForms,2
+SAP S/4HANA,2
+C#.NET,2
+Yii,2
+Mobile Solutions,2
+BPML,2
+VBS,2
+OSPF,2
+Perl,2
+SAP BW,2
+Spanish,2
+Information Management,2
+Symfony 5+,2
+4gl,2
+DHCP,2
+MS Project,2
+ISO 27000,2
+Youtrack,2
+Axure,2
+S/4 HANA,2
+Hardware Asset Management,2
+Nagios,2
+Oracle Data Integrator,2
+AKS,2
+Power Platform AI Builder,2
+Solaris,2
+CCNA,2
+Support,2
+MOBX,2
+Azure Functions,2
+Java 8/11,2
+JSF,2
+Azure SQL,2
+Nest,2
+CDK,2
+LTE,2
+Infrastructure as code,2
+OWASP,2
+Linux (Bash),2
+FI/CO,2
+CEH,2
+Symfony 4+,2
+IT Continuity,2
+Cloud Platforms,2
+Workday,2
+Coroutines,2
+ITIL Service,2
+Back-end,2
+SAP HCM,2
+Design,2
+analiza,2
+Service Delivery,2
+UX/CX,2
+F5,2
+EDI,2
+Zarządzanie Projektami,2
+Comarch XL,2
+Linux (terminal),2
+CMDB,2
+Swif,2
+Oracle Analytics Server,2
+BDD,2
+Xray,2
+workflow,2
+IP,2
+CQRS,2
+Atlassian,2
+IaaS Virtual Machines,2
+Service Desk,2
+WCF,2
+IFPUG,2
+Containers,2
+Microsoft Cloud,2
+Agile (SCRUM/Kanban),2
+RxJava,2
+Automation Tools,2
+.Net 5,2
+OutSystems,2
+Cognos Analytics,2
+Linux Kernel,2
+Open Source Solutions,2
+Meraki,2
+Kibana,2
+Web Development,2
+Telco,2
+OSCP,2
+MS-SQL,2
+MS Power BI,2
+PHP 8/8.1,2
+Symphony,2
+Low-code,2
+Azure PaaS,2
+digital workplace,2
+Cypress.io,2
+SQL/NoSQL,2
+maze,2
+Netcode,2
+Looker,2
+IPS,2
+ML,2
+AI,2
+MVC frameworks,2
+UI tools,2
+NESMA,2
+Język Angielski,2
+SQLAlchemy,2
+С++,2
+IBM Cloud,2
+Angular 13,2
+Linux (Debian),2
+Azure Databricks,2
+JMeter,2
+UX Wireframe,2
+SAP HR,2
+Mac,2
+UMTS,2
+Azure Cubes,2
+Data Lake,2
+System Administration,2
+BLOC,2
+RDBMS,2
+Niagara,2
+EC2,2
+Statistics,2
+Microstrategy,2
+API Management,2
+automation,2
+Webpack,2
+OOPS concepts,1
+Boomi,1
+good time management,1
+Electron,1
+Selenium Webdriver/ Playwright,1
+Visual Basic,1
+Eclipse,1
+C programming,1
+Combine,1
+UMTS/LTE/5G,1
+Remedyforce,1
+SLA,1
+obsługa klienta,1
+DB2,1
+Polish B2,1
+Linux RHEL,1
+Web UI Testing,1
+javasc,1
+tailwind,1
+Kontakt z klientem,1
+Writing test cases,1
+iOS or Android,1
+NAS,1
+AWS EKS,1
+Clarity PPM,1
+PHP 5.6/7.3,1
+English in speech,1
+Zarządzanie ryzykiem,1
+MS Power Point,1
+JobIT,1
+SEO,1
+Cloud Providers,1
+Identity Protection,1
+ACF,1
+SAN,1
+dev,1
+Wireshark,1
+MVP,1
+Spark 3.x,1
+WebFlux,1
+DATA MODELLING,1
+Tibco,1
+prowadzenie zespołu,1
+Angular 14,1
+Jira/Confluence,1
+OMP DSBM,1
+SCOM,1
+CI context,1
+MLC,1
+oracle ADF,1
+SAP CRM,1
+Gosu,1
+Helm,1
+ASP .NET Core,1
+Data Integration,1
+Testing Tools,1
+Icinga,1
+MS PowerApps,1
+DevTools,1
+scikit-learn,1
+U-boot,1
+Static Application Security Testing (SAST),1
+Aurora,1
+SAP SD/MM,1
+*React,1
+Java or Go or Python,1
+Solaris 11,1
+Trello,1
+sprzęt telekomunikacyjny,1
+Firebase,1
+Canva,1
+TLS,1
+ORM,1
+Governance,1
+Maxipanel,1
+PHP 5/7,1
+Server Core,1
+Test automation frameworks,1
+PSM II,1
+DDos,1
+Go/C/C++/Python,1
+Infor LX,1
+Client Service,1
+Simcorp Dimension,1
+Webflow,1
+Windows 11,1
+BMC Helix ITSM,1
+.Net 4.0+,1
+Spira,1
+Shell,1
+docer,1
+Delta Lake,1
+SAP ABAP,1
+cats,1
+Gherkin,1
+Smalltalk,1
+Atomic UC4,1
+Oracle PL/SQL,1
+SAP Migration tools,1
+GSUITE,1
+hiszpański,1
+PHP version 7 and higher,1
+Bamboo,1
+SAP Technical Architect / BASIS,1
+Metabase,1
+BBA,1
+Technical expertise,1
+sd,1
+Adobe Forms,1
+SAP FICO,1
+L2,1
+Bank's Systems architecture,1
+Zarządzanie zespołem,1
+Boo,1
+UNIX \ LINUX,1
+Business Continuity,1
+Redshift,1
+Embedded SW development,1
+asyncio,1
+PO/PM,1
+finance,1
+.NET and C#,1
+TDM,1
+routing protocols,1
+RTE,1
+Tech Lead,1
+Qlik Sense,1
+NLP algorithms,1
+Java/Python,1
+Java/Kotlin,1
+OpenAPI,1
+Centrum,1
+REST/JSON,1
+SAP PS,1
+Linux VMs,1
+CFIN/SLT,1
+KYC processes,1
+Rok,1
+Chatbot,1
+Photoshop/Illustrator/InDesign or similar,1
+oscilloscopes,1
+SecDevOps,1
+SAP BTP Cloud Integration (CPI),1
+SAP OTC,1
+AX 2012,1
+NUnit,1
+mpls,1
+MS DevOps,1
+JSP,1
+Symphony 5,1
+Marketing analytics,1
+System Design,1
+MS365,1
+NetApp,1
+Vuex,1
+Linux/Unix,1
+OAS,1
+SAP PowerDesigner,1
+Rancher,1
+Software Quality,1
+User Acceptance Tests,1
+ubl,1
+Control M,1
+Infoblox,1
+Google Analitycs,1
+AppDynamics,1
+JavaScript ES6/7,1
+Oneshield,1
+Cloud Migration,1
+UX / UI,1
+Tech support,1
+firewall systems,1
+Google Workspace,1
+WMS,1
+CDD,1
+Ansible/Terraform,1
+Facebook Pixel,1
+SSL,1
+Azure DevOps.,1
+React/Angular,1
+WSUS,1
+MVC,1
+DataMart,1
+Powershell/Bash/Perl,1
+Access,1
+LDAP,1
+MS operating system,1
+Six Sigma,1
+Magento2,1
+Jest,1
+LowCode,1
+Sparx EA,1
+Software Asset Management,1
+data processing,1
+SAP GTS,1
+CheckMK,1
+fintech experience,1
+bezpieczeństwo informacji,1
+Azure/AWS,1
+Acunetix,1
+Power Apps,1
+UAT,1
+User Research,1
+liwevire,1
+Portuguese,1
+System Integration Tests,1
+java core,1
+eBike,1
+AWS Cloud Native,1
+SAP S4/Hana,1
+IoT,1
+Java/JavaScript/Python,1
+Data Visualization,1
+SUSE,1
+tcpdump,1
+Business Central,1
+ETL processes,1
+Dynamics NAV,1
+Teradata,1
+KVM,1
+Data binding,1
+Ember.js,1
+Juniper,1
+Data Privacy,1
+Sparx,1
+Axure RP,1
+CAF,1
+Vulnerability scanning tools e.g. Qualys,1
+Flexcube,1
+B2B Sales,1
+WAF,1
+xsl,1
+JMS,1
+SAS Viya,1
+API .NET Standard,1
+GUI,1
+French,1
+.NET5,1
+Enterprise Architekt,1
+Shopware,1
+AD/ADAS,1
+Mobile Robotics,1
+(SAP LE,1
+GitHub on ELK,1
+Windows API,1
+Cloud environments,1
+RAML,1
+Keyword Planner,1
+SAP PO,1
+Writing,1
+Portale,1
+Java Server Faces,1
+Angular 11,1
+System administrator,1
+Java11,1
+Agile methods,1
+Solidity,1
+Clickup,1
+MS Sharepoint,1
+IT Service Management,1
+Docker/Kubernetes,1
+Dynamics 365 CE,1
+Debugging skills,1
+copywriting,1
+C language,1
+workshops,1
+agile ceremonies,1
+hosting,1
+SAS Guide,1
+Angular.js,1
+ArchiMate,1
+C embedded development,1
+Check Point,1
+Product Discovery,1
+Json/XML,1
+3GPP,1
+Word,1
+Planning Management,1
+OAuthZ,1
+Burp Suite Pro,1
+Semantic UI,1
+Budget Management,1
+Legacy code,1
+Adobe Creative Suite,1
+WPF (XAML),1
+Nuxt,1
+SAP MM,1
+Copado,1
+Threat Modelling,1
+cicd,1
+SQL Microsoft,1
+Symfony / Laravel,1
+Type,1
+Windows Platform,1
+CDS Views,1
+API Tester,1
+Checkpoint,1
+distributed architectures.,1
+Data architectures,1
+FIORI APPS,1
+Scala 2.x/Python 3,1
+powerPoint,1
+EUDA,1
+Power Apps Platform,1
+TFS,1
+Apache ActiveMQ,1
+Linux (Ubuntu),1
+Mobile Device Management,1
+Composition API,1
+Bloomreach,1
+Middleware,1
+web security,1
+eTOM,1
+Ul,1
+PO,1
+Reagent,1
+line management,1
+JavaScript (jQuery),1
+Troubleshooting skills,1
+Relay,1
+XSLT,1
+QOS,1
+oauth,1
+CocoaPods,1
+SAP BTP,1
+Plugin,1
+Python/SQL,1
+SecOps,1
+draw.io,1
+C#/Java,1
+blueprints,1
+Test API,1
+Azure Data Faktory,1
+microcontrollers,1
+Networking Concepts,1
+Product Analysis,1
+Microsoft SSIS,1
+SEO/SEM,1
+EPM,1
+OTC,1
+ELT/ETL,1
+Red Hat Linux,1
+SAP PP,1
+telecom industry,1
+SAP MM/WM/SD,1
+Scrum/Kanban,1
+Angielsk,1
+Arduino,1
+Good comunicate skills,1
+SAP SuccessFactor,1
+Microsoft Intune,1
+WebEx,1
+Avaloq,1
+jinja,1
+API Tests,1
+SAP WM,1
+CCNP,1
+Looker Studio,1
+DBT,1
+HFSQL/SQL,1
+EMS,1
+Data Lake S3,1
+Adobe Indesign,1
+Microsoft Office Professional Suite,1
+Azure Data,1
+Fiori,1
+Flink,1
+workshops with clients,1
+Hilt/Dagger,1
+Apple Pay,1
+Akeneo,1
+SIAM,1
+Clojure,1
+JEE/Spring,1
+NET / C#,1
+English B2+,1
+Express,1
+*Microsoft Power Platform,1
+CSS / HTML,1
+MS Dynamics 365 F&O,1
+Chaos,1
+infrastruktura sieciowa,1
+SAP CPI,1
+UML/BPMN,1
+Nessus,1
+EXIMEE,1
+Apache Airflow,1
+Java Enterprise Edition,1
+Archmiate,1
+Postgres-XL/TBase,1
+Native Polish,1
+JavaSE 8/11,1
+C/AL,1
+Haskell,1
+KornShell,1
+Zendesk,1
+System analyst,1
+Informatica,1
+Doctrine,1
+Oracle Service Bus,1
+Technical Experience,1
+Python/Django,1
+Cisco Network,1
+Ribbon Workbench,1
+Data Warehouse,1
+BIOS,1
+Odoo,1
+IT Operations Experience,1
+Google Search Console,1
+L1/L2/L3 Support,1
+TestLink,1
+j.angielski,1
+Smart Forms,1
+Design Systems,1
+Intel,1
+inżynieria systemowa,1
+Functional Testing,1
+Swagger,1
+ASA,1
+HA/LB,1
+Investment funds,1
+UNIX/LINUX,1
+MS Exchange,1
+Testing Theory,1
+UML 2.x,1
+Wireless,1
+JAMF,1
+Architektura IT,1
+Zarządzanie procesem testowym,1
+IP networks,1
+Kif,1
+Znajomość podstaw sieci transmisyjnych oraz protokołów sieciowych,1
+Test Cases,1
+SD/MM,1
+AOSP,1
+CSSS3,1
+BizTalk,1
+ARM embedded systems,1
+English B2,1
+Application administration,1
+Java/Scala,1
+TestComplete,1
+IT Infrastructure,1
+Decyzyjność,1
+Cloud Services,1
+landing zones in AWS,1
+NumPy,1
+Insurity,1
+Komunikatywność,1
+SBC,1
+Selenium API,1
+DWH/Data Mart,1
+Data & AI,1
+DevOps tools,1
+MDM,1
+SAP Hybris,1
+BGP,1
+WooCommerce,1
+WebSphere,1
+Strategic/tactical skills,1
+Mutiny,1
+Angular 12,1
+Edlund,1
+DellEMC,1
+VS-Test,1
+redagowanie tekstów,1
+visualization tools,1
+Wi-Fi,1
+SIEM/SOAR,1
+Transact-SQL,1
+Brightscript,1
+Oracle or PostreSQL,1
+cplace,1
+interpersonal skills,1
+Rx,1
+projektowanie systemów,1
+podstawy IT,1
+Tworzenie systemów,1
+Data Lakes,1
+BISSIS,1
+Metasploit,1
+Azure / AWS,1
+JAX-RS,1
+ESB,1
+Android/iOS,1
+Znajomość podstaw protokołów TCP /IP,1
+OSI,1
+WIFI,1
+Duck Creek,1
+Testy Automatyczne,1
+j.polski,1
+IT studies,1
+Clouds based solution,1
+JMESPath,1
+C/C+,1
+Cisco IOS,1
+Cassandra,1
+Microsoft System Center,1
+Microsoft Dynamics CRM,1
+MLOps,1
+Observability tools,1
+Senior Chapter Lead,1
+Graphic design,1
+Microservice Infrastructure,1
+.NET Core/.NET 6,1
+Hive,1
+Team City,1
+GreenPlum,1
+PC,1
+PowerBi,1
+sparx Enterprise,1
+Solaris 10,1
+QA Automation,1
+Plan and execute application tests,1
+Microsoftw Power BI,1
+Design fundamentals,1
+Java Automation Test Automation,1
+Querydsl,1
+Docker lub Podman,1
+DevOps/SRE,1
+Windows Active Directory,1
+Commerce Cloud,1
+Terraform/Terragrunt,1
+technical architecture,1
+Fund Administration,1
+Windev environment or C++/C#,1
+Public Cloud Platform,1
+Conda,1
+YAML,1
+Marketing-mix modelling,1
+Testing web applications,1
+Django / Twisted / Flask,1
+Cryptography,1
+Azure Synapse Analytics,1
+CloudFormation,1
+wireframing,1
+Spring Boot (2.x);,1
+Gearset,1
+SAP R3,1
+Microsoft Excel,1
+RSJX,1
+Niemiecki,1
+test-driven development,1
+CentOS,1
+Ethereum,1
+Enterprise Interface Builder,1
+TYPO3,1
+communicatioIn skills,1
+SPSS,1
+SAS 4GL,1
+MediatR,1
+Marketing Cloud,1
+Oracle Cloud,1
+Kubernetes lub Openshift,1
+IP technologies,1
+AWS / Azure,1
+Fortinet,1
+Coaching,1
+ASP.NET Core / React,1
+Angular/React,1
+QlikSaaS,1
+MxML trade representation,1
+orac,1
+Sping Boot,1
+Budowanie relacji,1
+Dagger,1
+Code Management Tools,1
+Percona XtraDB Cluster / Mysql,1
+analityczność,1
+Productive,1
+Apache Nifi,1
+Switf,1
+Lumen,1
+Robotic Process Automatio,1
+DSPACE,1
+SAP GRC,1
+Shell Scripting,1
+JavaEE 8,1
+LAN/WAN/VPN,1
+testing mobile applications,1
+język polski,1
+DevExpress,1
+ERDS,1
+Planowanie,1
+EF Core,1
+AWS / Azure / Google,1
+VoLTE,1
+Communication,1
+RWD,1
+React 16.8+,1
+F2P,1
+Service Now,1
+SAP CFIN,1
+Wireframes,1
+data analyst,1
+3+ y. as Business Analist,1
+Adobe AfterEffects,1
+DAM,1
+Google Pay,1
+System implementation,1
+Spock,1
+User Flow,1
+Defining requirements,1
+Lan/Wan/Wifi,1
+QlikSense,1
+Network hardware,1
+Infrastructure security,1
+PDF,1
+VB6,1
+F#,1
+Research,1
+Zabbix,1
+alpine,1
+MS Access,1
+ELK,1
+SAS ETL,1
+data governance,1
+bpms,1
+Google Data Studio,1
+SAP Process Integration 7.5,1
+Oracle Linux,1
+Java 8 and 11,1
+XSD,1
+Programming (any language),1
+Development Manager,1
+master data,1
+Blazemeter,1
+Spring Core,1
+Java / Python / JS,1
+BI Power,1
+data migration,1
+UI Tester,1
+stash,1
+GitHub/GitLab,1
+CHARM,1
+JavaServerFaces,1
+GCP/AWS/AZURE,1
+DevOps/GitOps,1
+Rest Services,1
+WebdriverIO,1
+Type script,1
+net 6,1
+AS400,1
+BI tools,1
+"JUnit, Mockito;",1
+IT contract management,1
+Agile/Scrum,1
+Mainframe,1
+SD-WAN,1
