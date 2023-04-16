@@ -13,8 +13,8 @@ TODO: Description (HugoN)
 
 
 ### How to open Skills survey CLI (`skills_survey`)
-TODO: Description (Gental)
-
+To enter default form, run:
+`py wdp/skills_survey/skills_survey.py`
 
 ### How to run Dash app locally (`employee_advisor`)
 ```
